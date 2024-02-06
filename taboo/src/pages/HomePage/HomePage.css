@@ -1,0 +1,23 @@
+:root{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.HomePage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:75vw;
+    height: 90vh;
+    margin-inline: auto;
+}
+
+button {
+    font-size: 1.2rem;
+    width: 10rem;
+    height: 4rem;
+    margin: .6rem;
+}
