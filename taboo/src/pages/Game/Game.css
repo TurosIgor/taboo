@@ -6,7 +6,7 @@
 }
 .UI{
     margin-top: 2rem;
-    width: 15rem;
+    width: 17rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -15,8 +15,8 @@
 }
 
 .Pass, .Next {
-    width:7rem;
-    height: 3rem;
+    width:8rem;
+    height: 3.5rem;
     border-radius: 1rem;
     font-size: 150%;
     padding: .5rem;
@@ -25,8 +25,19 @@
     font-weight: 1000;
 }
 .Pass{
-    background-color: rgb(194, 154, 154);
+    background-color: rgb(232, 179, 179);
 }
 .Next{
     background-color: rgb(182, 238, 182);
+}
+.StartMessage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.TeamPoints{
+    font-size: 170%;
+    margin: auto;
+    text-align: center;
 }

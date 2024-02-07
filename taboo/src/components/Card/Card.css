@@ -13,8 +13,11 @@
 .TabooCard[flipping="true"] .TabooCardInner{
     transform: rotateY(180deg); 
 }
+.TabooCard[flipping="true"][passed="true"] .TabooCardInner{
+    transform: rotateY(-180deg); 
+}
 .TabooCard[passed="true"] .TabooCardBack{
-    background-color: rgb(194, 154, 154);
+    background-image: linear-gradient(to right, rgb(233, 145, 145), rgb(232, 179, 179));
 }
 .TabooCardFront, .TabooCardBack {
     width: 100%;
@@ -42,7 +45,7 @@
     bottom: 0rem;
     width: 15rem;
     height: 18rem;
-    background-color: rgb(182, 238, 182);
+    background-image: linear-gradient(to right,rgb(145, 238, 145), rgb(182, 238, 182));
     position: absolute;
     backface-visibility: hidden;
     transform: rotateY(180deg);
@@ -60,8 +63,8 @@
     font-weight: 900;
     font-size: 2.2rem;
     width: 15rem;
-    border-bottom: .3rem ridge green;
-    border-radius: .01rem;
+    border-bottom: .4rem solid green;
+    border-radius: .3rem;
     font-family: fantasy;
 }
 .Word, .Taboos{
