@@ -1,0 +1,32 @@
+.Game{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.UI{
+    margin-top: 2rem;
+    width: 15rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap:1rem;
+}
+
+.Pass, .Next {
+    width:7rem;
+    height: 3rem;
+    border-radius: 1rem;
+    font-size: 150%;
+    padding: .5rem;
+    text-align: center;
+    color: #1a1a1a;
+    font-weight: 1000;
+}
+.Pass{
+    background-color: rgb(194, 154, 154);
+}
+.Next{
+    background-color: rgb(182, 238, 182);
+}

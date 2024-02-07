@@ -1,5 +1,6 @@
 .TeamManager{
     display: flex;
+    overflow-wrap: normal;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -8,14 +9,39 @@
 .Teams{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
+}
+.Player{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .Team{
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: .5rem solid wheat;
     border-radius: 2rem;
     padding: 1rem;
+    width: 18rem;
+    background-image: linear-gradient(to right, wheat, rgba(245, 222, 179, 0.758));
+    color: #1a1a1a;
+    margin-top:5rem;
+}
+.TeamNameInput, .PlayerNameInput, .PlayerName, .TeamName{
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    margin: .5rem;
+    padding: .3rem;
+    border: 0;
+    font-weight: bold;
+}
+
+.RenameTeamButton, .SaveButton, .RenamePlayerButton, .RemoveButton, .AddPlayer{
+    width: 7rem;
+    height: 3.8rem;
+    margin: .6rem;
 }

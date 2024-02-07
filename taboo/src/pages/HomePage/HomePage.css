@@ -15,7 +15,7 @@
     margin-inline: auto;
 }
 
-button {
+.HomeButton {
     font-size: 1.2rem;
     width: 10rem;
     height: 4rem;

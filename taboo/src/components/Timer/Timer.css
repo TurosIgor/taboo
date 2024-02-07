@@ -1,0 +1,22 @@
+.Timer{
+    width:15rem;
+    background-color: #2d2652;
+    height: 3rem;
+    color:#b6a7ff;
+    border-radius: 1rem;
+}
+.TimerSlider{
+    background-color: #846ef1;
+    width: 100%;
+    height: 3rem;
+    transition: width 1s linear;
+    border-radius: 1rem;
+}
+
+.TimerNumber{
+    font-size: 170%;
+    text-align: center;
+    position: relative;
+    bottom:2.8rem;
+    mix-blend-mode: color-dodge;
+}

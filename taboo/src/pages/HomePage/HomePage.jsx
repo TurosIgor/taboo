@@ -6,8 +6,8 @@ export default function HomePage () {
 
     return(
         <div className="HomePage">
-            <button type="button" onClick={e => navigate("/play/teams")} >Play</button>
-            <button type="button" onClick={e => navigate("/howTo")} >How to Play</button>
+            <button className="HomeButton" type="button" onClick={e => navigate("/play/teams")} >Play</button>
+            <button className="HomeButton" type="button" onClick={e => navigate("/howTo")} >How to Play</button>
         </div>
     )
 }
