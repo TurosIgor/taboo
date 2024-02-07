@@ -1,9 +1,9 @@
 import "./Card.css"
 
-export default function Card({ word, flipping, setFlipping }) {
+export default function Card({ word, flipping, passed }) {
 
     return (
-        <div className="TabooCard" flipping={flipping.toString()} >
+        <div className="TabooCard" flipping={flipping.toString()} passed={passed.toString()} >
             <div className="TabooCardInner">
                 <div className="TabooCardFront" >
                     <span className="Point">{word.point}</span>

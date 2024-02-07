@@ -13,6 +13,9 @@
 .TabooCard[flipping="true"] .TabooCardInner{
     transform: rotateY(180deg); 
 }
+.TabooCard[passed="true"] .TabooCardBack{
+    background-color: rgb(194, 154, 154);
+}
 .TabooCardFront, .TabooCardBack {
     width: 100%;
     height: 100%;
@@ -39,7 +42,7 @@
     bottom: 0rem;
     width: 15rem;
     height: 18rem;
-    background-color: wheat;
+    background-color: rgb(182, 238, 182);
     position: absolute;
     backface-visibility: hidden;
     transform: rotateY(180deg);

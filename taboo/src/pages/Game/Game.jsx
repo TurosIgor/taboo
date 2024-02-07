@@ -9,7 +9,8 @@ export default function Game() {
     const [word, setWord] = useState(null);
     const [counter, setCounter] = useState(0);
     const [timer, setTimer] = useState(60);
-    const [flipping, setFlipping] = useState(false)
+    const [flipping, setFlipping] = useState(false);
+    const [passed, setPassed] = useState(false);
 
 
     const getRandomIndex = (words) => {
@@ -40,13 +41,15 @@ export default function Game() {
 
     return (
         <div className="Game">
-            {word ? <Card word={word} flipping={flipping} setFlipping={setFlipping} /> : <></>}
+            {word ? <Card word={word} flipping={flipping} passed={passed} /> : <></>}
             <div className="UI">
                 <button type="button" className="Pass" onClick={e => {
+                    setPassed(true)
                     setCounter(counter + 1)
                     setFlipping(true)
                     }} >Pass</button>
                 <button type="button" className="Next" onClick={e => {
+                    setPassed(false)
                     setCounter(counter + 1)
                     setFlipping(true)
                     }} >Next</button>
