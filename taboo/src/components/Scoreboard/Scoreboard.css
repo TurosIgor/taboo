@@ -8,9 +8,6 @@ tr{
 thead{
     background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
 }
-tbody{
-    border-radius: 1rem;
-}
 td{
     overflow-wrap: break-word;
     hyphens: auto;
@@ -24,9 +21,11 @@ td:last-child{
 .Scoreboard{
     margin-top: 2rem;
     height: 12rem;
-    width: 20rem;
+    width: 18rem;
     border-radius: 1rem;
-    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
     background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
 }
 tr:first-child td:first-child{

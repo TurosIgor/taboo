@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
 }
 .Teams{
     display: flex;
@@ -12,7 +12,15 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: start;
-    gap: 3rem;
+    position: relative;
+    top: 6.5rem;
+    gap: 7rem;
+    z-index: 1;
+}
+.Team[started="true"]{
+    height: 0;
+    padding: 0;
+    /* transform-origin: top; */
 }
 .Player{
     display: flex;
@@ -32,10 +40,12 @@
     padding: 1rem;
     width: 18rem;
     color: #1a1a1a;
-    margin-top:5rem;
-    transition: height 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    margin-top:0rem;
+    margin-bottom: 0rem;
+    transition: padding 1.4s ease, height 1.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     overflow: hidden;
     box-shadow: .75rem .75rem .5rem #1a1a1a5e;
+    z-index: 2;
 }
 .Team .AddPlayer{
     position: sticky;
@@ -98,9 +108,13 @@
     border-radius: 2rem;
     text-transform: uppercase;
 }
-
 .RenameTeamButton, .SaveButton, .RenamePlayerButton, .RemoveButton, .AddPlayer{
     width: 7rem;
     height: 3.8rem;
     margin: .6rem;
+}
+.TeamManager .Start{
+    position: fixed;
+    top: 1rem;
+    z-index: 1;
 }

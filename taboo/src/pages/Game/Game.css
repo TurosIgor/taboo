@@ -4,7 +4,14 @@
     justify-content: center;
     align-items: start;
 }
-.PlayerName{
+.Game[isover="false"]{
+    animation: grow 1s cubic-bezier(0.18, 0.89, 0.32, 1.1);
+}
+.Game[isover="true"]{
+    pointer-events: none;
+    animation: shrink 1.2s ease-in-out;
+}
+.GameContainer .PlayerName{
     margin: auto;
 }
 .UI{
@@ -46,15 +53,52 @@
     text-align: center;
     border-radius: 2rem;
     box-shadow: .5rem .5rem .5rem #1a1a1a8c;
-    transition: height 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    transition: height 1s cubic-bezier(0.18, 0.89, 0.32, 1.1);
     overflow: hidden;
+    animation: grow 1s cubic-bezier(0.18, 0.89, 0.32, 1.1);
 }
 h3,h4{
     margin: 1rem 0 1rem 0;
 }
-
 .TeamPoints{
     font-size: 170%;
     margin: auto;
     text-align: center;
+}
+.StartTimer{
+    font-size: 10rem;
+    text-shadow: .5rem .5rem 1rem #1a1a1a;
+    font-weight: 1000;
+    animation: startTimer 1s infinite;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgb(222, 240, 63);
+}
+@keyframes startTimer{
+    0%{
+        transform: scale(1%) rotate(180deg);
+    }
+    35%{
+        transform: rotate(0);
+    }65%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: scale(1%) rotate(360deg);
+    }
+}
+@keyframes grow{
+    0%{
+        transform: scale(0);
+    }
+    100%{
+        transform: scale(100%);
+    }
+}
+@keyframes shrink{
+    0%{
+        transform: scale(100%);
+    }
+    100%{
+        transform: scale(0);
+    }
 }
