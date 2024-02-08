@@ -14,10 +14,7 @@
     height: 90vh;
     margin-inline: auto;
 }
-
-.HomeButton {
-    font-size: 1.2rem;
-    width: 10rem;
-    height: 4rem;
-    margin: .6rem;
+.HomeLogo{
+    width: 22rem;
+    margin-bottom: 5rem;
 }

@@ -14,7 +14,7 @@ export default function Timer({ timer, setTimer, teams, dispatch, setStarted, se
     }, [timer])
 
     return (
-        <div className="Timer">
+        <div className="Timer" flashing={timer < 11 ? "true" : "false"}>
             <div className="TimerSlider" style={{"width" : `${timer * 100 / 60}%`}}></div>
             <div className="TimerNumber">{Math.ceil(timer)}</div>
         </div>

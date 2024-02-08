@@ -3,6 +3,7 @@ import fs from "fs/promises"
 import React, { useState, useEffect } from "react"
 import { useOutletContext, useNavigate } from "react-router-dom";
 import Timer from "../../components/Timer/Timer";
+import Scoreboard from "../../components/Scoreboard/Scoreboard";
 import "./Game.css"
 
 export default function Game() {
@@ -16,6 +17,8 @@ export default function Game() {
     const [started, setStarted] = useState(false);
     const [round, setRound] = useState(1);
     const [lastIndexes, setLastIndexes] = useState({team_1: -1, team_2: -1})
+    const [showScores, setShowScores] = useState(false)
+    const [scores, setScores] = useState({ team_1: {}, team_2: {} })
     const navigate = useNavigate();
 
     function getRandomIndex(array) {
@@ -33,7 +36,11 @@ export default function Game() {
         async function readWords() {
             const response = await fetch("/api/words");
             const data = await response.json();
-            setWords(data);
+            if (data) {
+                const randomIndex = getRandomIndex(data);
+                setWord(data[randomIndex])
+            }
+            setWords(data.filter(wrd => wrd !== word));
         }
         readWords()
         const teamNr = getRandomIndex(teams)
@@ -42,10 +49,12 @@ export default function Game() {
     }, [])
 
     useEffect(() => {
+        setShowScores(false)
         setTimeout(() => {
             if (words) {
                 const randomIndex = getRandomIndex(words);
                 setWord(words[randomIndex])
+                setWords(words.filter(wrd => wrd !== word));
             }
         }, 200)
         setTimeout(() => {
@@ -54,7 +63,7 @@ export default function Game() {
         if(round > 16) {
             navigate("/play/results")
         }
-    }, [counter, words, round])
+    }, [counter, round])
 
     return (
         <div className="Game">
@@ -69,21 +78,24 @@ export default function Game() {
                     }} >Pass</button>
                     <button type="button" className="Next" onClick={e => {
                         setPassed(false)
+                        setScores({...scores, [teams.find(team => team.current).id]: {...scores[teams.find(team => team.current).id], [`round${round}`]: scores[teams.find(team => team.current).id][`round${round}`] ? scores[teams.find(team => team.current).id][`round${round}`] + word.point : word.point}})
                         dispatch({ type: "ADD_POINT", teamId: teams.find(team => team.current).id, points: word.point })
                         setCounter(counter + 1)
                         setFlipping(true)
                     }} >Next</button>
                     <Timer round={round} setRound={setRound} swapTeams={swapTeams} setCounter={setCounter} setStarted={setStarted} teams={teams} dispatch={dispatch} timer={timer} setTimer={setTimer} />
-                    <h3 className="TeamPoints">Points: {teams.find(team => team.current).points}</h3>
+                    <h3 className="TeamPoints">Points: {scores[teams.find(team => team.current).id][`round${round}`]}</h3>
                 </div> </> :
-                <div className="StartMessage">
-                    <h2>{teams?.find(team => team.current)?.name}: It's {teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn!</h2>
-                    <h3 className="TeamPoints">Points: {teams.find(team => team.current)?.points ?? 0}</h3>
-                    <h3 className="RoundCounter">Round: {round}</h3>
+                <div className={`StartMessage ${teams.find(team => team.current)?.id}`} style={{"height":`${showScores ? 34 : 18}rem`}} >
+                    <h3>Next up: <span className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}</span></h3>
+                    <h4>from <span className="TeamName">{teams?.find(team => team.current)?.name}</span></h4>
+                    <h3 className="RoundCounter">Round {round}</h3>
                     <button type="button" className="Start" onClick={e => {
                         setTimer(60)
                         setStarted(true)
                         }}>Start</button>
+                    <button type="button" className="ShowScoreboard" onClick={e => setShowScores(!showScores)}>{showScores ? "Hide" : "Show"} Scores</button>
+                    <Scoreboard teams={teams} scores={scores} />
                 </div>
             }
         </div>

@@ -11,7 +11,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 3rem;
 }
 .Player{
@@ -19,25 +19,84 @@
     flex-direction: column;
     align-items: center;
 }
+.Players{
+    transition: height .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
 .Team{
     display: flex;
+    height: 32rem;
+    max-height: fit-content;
     flex-direction: column;
     align-items: center;
     border-radius: 2rem;
     padding: 1rem;
     width: 18rem;
-    background-image: linear-gradient(to right, wheat, rgba(245, 222, 179, 0.758));
     color: #1a1a1a;
     margin-top:5rem;
+    transition: height 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    overflow: hidden;
+    box-shadow: .75rem .75rem .5rem #1a1a1a5e;
+}
+.Team .AddPlayer{
+    position: sticky;
+    bottom: 0;
+}
+.team_1{
+    background-image: linear-gradient(to right, rgb(145, 175, 240), rgb(179, 200, 245));
+}
+.team_1 input{
+    background-image: linear-gradient(to right, rgb(93, 154, 152), rgb(103, 138, 134));  
+}
+.team_2 input{
+    background-image: linear-gradient(to right, rgb(158, 127, 96), rgb(154, 135, 114));  
+}
+.Team input{
+    box-shadow: .3rem .3rem .3rem #1a1a1a8c;
+}
+.team_1 button, .team_2 button{
+    border: .1rem solid;
+    color: #1a1a1a;
+    font-weight: 1000;
+    box-shadow: .3rem .3rem .3rem #1a1a1a8c;
+    transition: transform .08s ease, box-shadow .08s ease;
+}
+.team_1 button:disabled, .team_2 button:disabled{
+    transform: translate(.15rem, .15rem);
+    box-shadow: none;
+    opacity: 80%;
+    pointer-events: none;
+}
+.team_1 button{
+    background-image: linear-gradient(to right, rgb(123, 202, 199), rgb(151, 204, 199));
+    border-image: linear-gradient(to right, rgb(48, 64, 65), rgb(38, 62, 62));
+}
+.team_1 button:hover, .team_2 button:hover{
+    box-shadow: .1rem .1rem .3rem #1a1a1a8c;
+    transform: translate(.1rem, .1rem);
+}
+.team_1 button:active, .team_2 button:active{
+    box-shadow: none;
+    transform: translate(.15rem, .15rem);
+}
+.team_2 button{
+    background-image: linear-gradient(to right, rgb(202, 162, 123), rgb(204, 179, 151));
+    border-image: linear-gradient(to right, rgb(151, 194, 204), rgb(151, 194, 204));
+}
+.team_2{
+    background-image: linear-gradient(to right, rgb(233, 142, 142), rgb(245, 179, 179));
 }
 .TeamNameInput, .PlayerNameInput, .PlayerName, .TeamName{
     height: 2rem;
     line-height: 2rem;
+    font-size: 130%;
+    color: #1a1a1a;
     text-align: center;
     margin: .5rem;
     padding: .3rem;
     border: 0;
-    font-weight: bold;
+    font-weight: 1000;
+    border-radius: 2rem;
+    text-transform: uppercase;
 }
 
 .RenameTeamButton, .SaveButton, .RenamePlayerButton, .RemoveButton, .AddPlayer{

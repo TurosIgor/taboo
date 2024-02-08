@@ -1,0 +1,52 @@
+th{
+    padding: .4rem;
+    width: fit-content;
+}
+tr{
+    height: 4rem;
+}
+thead{
+    background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
+}
+tbody{
+    border-radius: 1rem;
+}
+td{
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+td:first-child{
+    width: 2.5rem;
+}
+td:last-child{
+    max-width: .2rem;
+}
+.Scoreboard{
+    margin-top: 2rem;
+    height: 12rem;
+    width: 20rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
+}
+tr:first-child td:first-child{
+    border-top-left-radius: .5rem;
+}
+tr:first-child td:last-child{
+    border-top-right-radius: .5rem;
+}
+tr:last-child td:first-child{
+    border-bottom-left-radius: .5rem;
+}
+tr:last-child td:last-child{
+    border-bottom-right-radius: .5rem;
+}
+table{
+    font-size: 120%;
+    width: 10rem;
+    font-weight: 1000;
+    background: transparent;
+    border-spacing: .4rem;
+    border-collapse: collapse;
+    background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
+}

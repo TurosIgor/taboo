@@ -1,4 +1,5 @@
 import "./Card.css"
+import TabooLogo from "../../assets/TabooLogo.png"
 
 export default function Card({ word, flipping, passed }) {
 
@@ -12,7 +13,7 @@ export default function Card({ word, flipping, passed }) {
                         {word.taboo.map((taboo, i) => <h3 key={`taboo${i * Date.now()}`} className="Taboo">{taboo}</h3>)}
                     </div>
                 </div>
-                <div className="TabooCardBack"><p className="rotate">TABOO</p></div>
+                <div className="TabooCardBack"><img src={TabooLogo} className="rotate" /></div>
             </div>
         </div>
     )
