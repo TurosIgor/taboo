@@ -29,6 +29,7 @@
     display: flex;
     width: 15rem;
     height: 18rem;
+    font-size: 1.8rem;
     flex-direction: column;
     align-items: center;
     border-radius: 2rem;
@@ -58,32 +59,31 @@
     top: 6rem;
     font-size: 5rem;
     font-weight: 1000;
-    font-family: fantasy;
     height: 6rem;
 }
 .Word{
     margin-top: 0;
     margin-bottom:.5rem;
     font-weight: 900;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     width: 15rem;
     border-bottom: .4rem solid green;
     border-radius: .3rem;
-    font-family: fantasy;
 }
 .Word, .Taboos{
     text-transform: uppercase;
     text-align: center;
 }
 .Taboo{
-    margin:0;
-    font-size: 1.5rem;
-    font-weight: 450;
+    margin:0.1rem;
+    color: rgb(149, 49, 49);
+    font-size: 1.4rem;
+    font-weight: 200;
 }
 .Point{
     position: relative;
     left: 6.5rem;
-    font-size: 170%;
+    font-size: 1.7rem;
     font-weight: 900;
     transform: rotate(-12deg);
     border-radius: 2rem;

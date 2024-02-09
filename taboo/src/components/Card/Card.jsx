@@ -1,6 +1,6 @@
 import "./Card.css"
 import TabooLogo from "../../assets/TabooLogo.png"
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 export default function Card({ word, flipping, setFlipping, setPassed, passCard, nextCard, setCounter, passed }) {
     const memoizedTaboos = useMemo(() => word.taboo, [word])
@@ -9,6 +9,7 @@ export default function Card({ word, flipping, setFlipping, setPassed, passCard,
     const [angle, setAngle] = useState(0)
     const [touchedAt, setTouchedAt] = useState(null)
     const [letGoAt, setLetGoAt] = useState(null)
+    const [fontSize, setFontSize] = useState(100)
 
     const minSwipeDistance = 90
 
@@ -58,6 +59,15 @@ export default function Card({ word, flipping, setFlipping, setPassed, passCard,
         }, 100)
     }
 
+    useEffect(() => {
+        const wordLength = word.word.length
+        if(wordLength > 12) {
+            setFontSize(100 - (wordLength - 12) * 5)
+        } else {
+            setFontSize(100)
+        }
+    }, [word])
+
     return (
         <div className="TabooCard" flipping={flipping.toString()} passed={passed.toString()}
             onTouchStart={onTouchStart}
@@ -66,7 +76,7 @@ export default function Card({ word, flipping, setFlipping, setPassed, passCard,
             <div className="TabooCardInner" style={angle ? { "transform": `rotateY(${angle}deg)` } : {}}>
                 <div className="TabooCardFront" >
                     <span className="Point">{word.point}</span>
-                    <h2 className="Word">{word.word}</h2>
+                    <h2 className="Word" style={{"fontSize": `${fontSize}%`}}>{word.word}</h2>
                     <div className="Taboos">
                         {memoizedTaboos.map((taboo, i) => <h3 key={`taboo${i}`} className="Taboo">{taboo}</h3>)}
                     </div>

@@ -1,5 +1,9 @@
+@font-face {
+  font-family: 'TitanOne';
+  src: local('TitanOne'), url(./assets/fonts/Titan_One/TitanOne-Regular.ttf) format('truetype');
+}
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'TitanOne';
   line-height: 1.5;
   font-weight: 400;
 
