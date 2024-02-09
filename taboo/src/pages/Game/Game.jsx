@@ -74,9 +74,11 @@ export default function Game() {
                 setWords(words.filter(wrd => wrd !== word));
             }
         }, 100)
-        setTimeout(() => {
-            setFlipping(false)
-        }, 400)
+        if(flipping) {
+            setTimeout(() => {
+                setFlipping(false)
+            }, 400)
+        }
         if (round > 16) {
             navigate("/play/results")
         }
@@ -100,7 +102,7 @@ export default function Game() {
             {started & startTimer < 1 ?
             word && <div key={word} className="Game" isover={(timer === 0).toString()} >
                 <h2 className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn</h2>
-                <Card setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
+                <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
                 <div className="UI">
                     <button type="button" className="Pass" onClick={e => passCard(e, false)} >Pass</button>
                     <button type="button" className="Next" onClick={e => nextCard(e, false)} >Next</button>
