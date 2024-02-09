@@ -16,7 +16,7 @@ export default function Game() {
     const { teams, dispatch } = useOutletContext();
     const [started, setStarted] = useState(false);
     const [round, setRound] = useState(1);
-    const [lastIndexes, setLastIndexes] = useState({team_1: -1, team_2: -1})
+    const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
     const [scores, setScores] = useState({ team_1: {}, team_2: {} })
     const [startTimer, setStartTimer] = useState(3)
@@ -28,9 +28,25 @@ export default function Game() {
     }
     function swapTeams(teams) {
         const nextTeam = teams.find(team => !team.current)
-        setLastIndexes({...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0})
+        setLastIndexes({ ...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0 })
         const nextPlayer = nextTeam.players[lastIndexes[nextTeam.id] + 1] ?? nextTeam.players[0]
         dispatch({ type: "CHOOSE_TEAM", teamId: nextTeam?.id, playerId: nextPlayer?.id })
+    }
+    function passCard(e, isTouch) {
+        setCounter(counter + 1)
+        if (!isTouch) {
+            setPassed(true)
+            setFlipping(true)
+        }
+    }
+    function nextCard(e, isTouch) {
+        setScores({ ...scores, [teams.find(team => team.current).id]: { ...scores[teams.find(team => team.current).id], [`round${round}`]: scores[teams.find(team => team.current).id][`round${round}`] ? scores[teams.find(team => team.current).id][`round${round}`] + word.point : word.point } })
+        dispatch({ type: "ADD_POINT", teamId: teams.find(team => team.current).id, points: word.point })
+        setCounter(counter + 1)
+        if (!isTouch) {
+            setPassed(false)
+            setFlipping(true)
+        }
     }
 
     useEffect(() => {
@@ -45,7 +61,7 @@ export default function Game() {
         }
         readWords()
         const teamNr = getRandomIndex(teams)
-        setLastIndexes({...lastIndexes, [`team_${teamNr + 1}`]: 0})
+        setLastIndexes({ ...lastIndexes, [`team_${teamNr + 1}`]: 0 })
         dispatch({ type: "CHOOSE_TEAM", teamId: teams[teamNr].id, playerId: teams[teamNr].players[0].id })
     }, [])
 
@@ -57,19 +73,18 @@ export default function Game() {
                 setWord(words[randomIndex])
                 setWords(words.filter(wrd => wrd !== word));
             }
-        }, 200)
+        }, 100)
         setTimeout(() => {
             setFlipping(false)
         }, 400)
-        if(round > 16) {
+        if (round > 16) {
             navigate("/play/results")
         }
     }, [counter, round])
 
     useEffect(() => {
-        console.log(startTimer)
-        if(started) {
-            if(startTimer > 0) {
+        if (started) {
+            if (startTimer > 0) {
                 setTimeout(() => {
                     setStartTimer(startTimer - 1)
                 }, 1000)
@@ -77,40 +92,30 @@ export default function Game() {
         }
     }, [started, startTimer])
 
-    if(started & startTimer > 0) {
+    if (started & startTimer > 0) {
         return <h1 className="StartTimer">{startTimer}</h1>
     }
-
     return (
         <div className="GameContainer">
-            {started && startTimer < 1 ? word && <div key={word} className="Game" isover={(timer === 0).toString()} >
+            {started & startTimer < 1 ?
+            word && <div key={word} className="Game" isover={(timer === 0).toString()} >
                 <h2 className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn</h2>
-                <Card word={word} flipping={flipping} passed={passed} />
+                <Card setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
                 <div className="UI">
-                    <button type="button" className="Pass" onClick={e => {
-                        setPassed(true)
-                        setCounter(counter + 1)
-                        setFlipping(true)
-                    }} >Pass</button>
-                    <button type="button" className="Next" onClick={e => {
-                        setPassed(false)
-                        setScores({...scores, [teams.find(team => team.current).id]: {...scores[teams.find(team => team.current).id], [`round${round}`]: scores[teams.find(team => team.current).id][`round${round}`] ? scores[teams.find(team => team.current).id][`round${round}`] + word.point : word.point}})
-                        dispatch({ type: "ADD_POINT", teamId: teams.find(team => team.current).id, points: word.point })
-                        setCounter(counter + 1)
-                        setFlipping(true)
-                    }} >Next</button>
+                    <button type="button" className="Pass" onClick={e => passCard(e, false)} >Pass</button>
+                    <button type="button" className="Next" onClick={e => nextCard(e, false)} >Next</button>
                     <Timer round={round} setRound={setRound} swapTeams={swapTeams} setCounter={setCounter} setStarted={setStarted} teams={teams} dispatch={dispatch} timer={timer} setTimer={setTimer} />
                     <h3 className="TeamPoints">Points: {scores[teams.find(team => team.current).id][`round${round}`]}</h3>
-                </div> </div> :
-                <div className={`StartMessage ${teams.find(team => team.current)?.id}`} style={{"height":`${showScores ? 34 : 18}rem`}} >
+                </div></div> :
+                <div className={`StartMessage ${teams.find(team => team.current)?.id}`} style={{ "height": `${showScores ? 34 : 18}rem` }} >
                     <h3>Next up: <span className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}</span></h3>
                     <h4>from <span className="TeamName">{teams?.find(team => team.current)?.name}</span></h4>
                     <h3 className="RoundCounter">Round {round}</h3>
                     <button type="button" className="Start" onClick={e => {
-                        setTimer(5)
+                        setTimer(60)
                         setStarted(true)
                         setStartTimer(3)
-                        }}>Start</button>
+                    }}>Start</button>
                     <button type="button" className="ShowScoreboard" onClick={e => setShowScores(!showScores)}>{showScores ? "Hide" : "Show"} Scores</button>
                     <Scoreboard teams={teams} scores={scores} />
                 </div>

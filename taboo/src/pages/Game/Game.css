@@ -4,6 +4,9 @@
     justify-content: center;
     align-items: start;
 }
+div[data-swipeable="true"]{
+    overflow: visible !important;
+}
 .Game[isover="false"]{
     animation: grow 1s cubic-bezier(0.18, 0.89, 0.32, 1.1);
 }
