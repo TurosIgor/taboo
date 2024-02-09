@@ -34,6 +34,8 @@ export default function Card({ word, flipping, setFlipping, setPassed, passCard,
                 setPassed(false)
                 setAngle(ang < 180 ? ang : 180)
             }
+        } else if(touchEnd && Math.abs(distance) < minSwipeDistance) {
+            setAngle(0)
         }
 
     }
