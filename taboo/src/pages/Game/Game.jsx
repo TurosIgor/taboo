@@ -1,9 +1,6 @@
 import Card from "../../components/Card/Card"
-import fs from "fs/promises"
 import React, { useState, useEffect } from "react"
 import { useOutletContext, useNavigate } from "react-router-dom";
-import Timer from "../../components/Timer/Timer";
-import Scoreboard from "../../components/Scoreboard/Scoreboard";
 import "./Game.css"
 import UI from "../../components/UI/UI";
 import StartScreen from "../../components/StartScreen/StartScreen";
@@ -74,7 +71,8 @@ export default function Game() {
     }
     return (
         <div className="GameContainer">
-            {started & startTimer < 1 ? word && 
+            {
+            started & startTimer < 1 ? word && 
             <div key={word} className="Game" isover={(timer === 0).toString()} >
                 <h2 className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
