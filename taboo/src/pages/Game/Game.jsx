@@ -7,10 +7,9 @@ import Scoreboard from "../../components/Scoreboard/Scoreboard";
 import "./Game.css"
 import UI from "../../components/UI/UI";
 import StartScreen from "../../components/StartScreen/StartScreen";
+import useWords from "../../hooks/useWords";
 
 export default function Game() {
-    const [words, setWords] = useState(null);
-    const [word, setWord] = useState(null);
     const [counter, setCounter] = useState(0);
     const [timer, setTimer] = useState(60);
     const [flipping, setFlipping] = useState(false);
@@ -23,11 +22,8 @@ export default function Game() {
     const [scores, setScores] = useState({ team_1: {}, team_2: {} })
     const [startTimer, setStartTimer] = useState(3)
     const navigate = useNavigate();
+    const word = useWords(teams, dispatch, setLastIndexes, lastIndexes, counter, round);
 
-    function getRandomIndex(array) {
-        const index = Math.floor(Math.random() * array.length)
-        return index;
-    }
     function passCard(e, isTouch) {
         setCounter(counter + 1)
         if (!isTouch) {
@@ -51,30 +47,8 @@ export default function Game() {
     }
 
     useEffect(() => {
-        async function readWords() {
-            const response = await fetch("/api/words");
-            const data = await response.json();
-            if (data) {
-                const randomIndex = getRandomIndex(data);
-                setWord(data[randomIndex])
-            }
-            setWords(data.filter(wrd => wrd !== word));
-        }
-        readWords()
-        const teamNr = getRandomIndex(teams)
-        setLastIndexes({ ...lastIndexes, [`team_${teamNr + 1}`]: 0 })
-        dispatch({ type: "CHOOSE_TEAM", teamId: teams[teamNr].id, playerId: teams[teamNr].players[0].id })
-    }, [])
-
-    useEffect(() => {
         setShowScores(false)
-        setTimeout(() => {
-            if (words) {
-                const randomIndex = getRandomIndex(words);
-                setWord(words[randomIndex])
-                setWords(words.filter(wrd => wrd !== word));
-            }
-        }, 100)
+        
         if(flipping) {
             setTimeout(() => {
                 setFlipping(false)
