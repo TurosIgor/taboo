@@ -5,6 +5,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import Timer from "../../components/Timer/Timer";
 import Scoreboard from "../../components/Scoreboard/Scoreboard";
 import "./Game.css"
+import UI from "../../components/UI/UI";
 
 export default function Game() {
     const [words, setWords] = useState(null);
@@ -26,12 +27,6 @@ export default function Game() {
         const index = Math.floor(Math.random() * array.length)
         return index;
     }
-    function swapTeams(teams) {
-        const nextTeam = teams.find(team => !team.current)
-        setLastIndexes({ ...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0 })
-        const nextPlayer = nextTeam.players[lastIndexes[nextTeam.id] + 1] ?? nextTeam.players[0]
-        dispatch({ type: "CHOOSE_TEAM", teamId: nextTeam?.id, playerId: nextPlayer?.id })
-    }
     function passCard(e, isTouch) {
         setCounter(counter + 1)
         if (!isTouch) {
@@ -47,6 +42,11 @@ export default function Game() {
             setPassed(false)
             setFlipping(true)
         }
+    }
+    function startRound(e) {
+        setTimer(60)
+        setStarted(true)
+        setStartTimer(3)
     }
 
     useEffect(() => {
@@ -103,21 +103,13 @@ export default function Game() {
             word && <div key={word} className="Game" isover={(timer === 0).toString()} >
                 <h2 className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
-                <div className="UI">
-                    <button type="button" className="Pass" onClick={e => passCard(e, false)} >Pass</button>
-                    <button type="button" className="Next" onClick={e => nextCard(e, false)} >Next</button>
-                    <Timer round={round} setRound={setRound} swapTeams={swapTeams} setCounter={setCounter} setStarted={setStarted} teams={teams} dispatch={dispatch} timer={timer} setTimer={setTimer} />
-                    <h3 className="TeamPoints">Points: {scores[teams.find(team => team.current).id][`round${round}`]}</h3>
-                </div></div> :
+                <UI passCard={passCard} nextCard={nextCard} setCounter={setCounter} setStarted={setStarted} setRound={setRound} round={round} timer={timer} setTimer={setTimer} setLastIndexes={setLastIndexes} lastIndexes={lastIndexes} scores={scores} teams={teams} dispatch={dispatch} />
+                </div> :
                 <div className={`StartMessage ${teams.find(team => team.current)?.id}`} style={{ "height": `${showScores ? 34 : 18}rem` }} >
                     <h3>Next up: <span className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}</span></h3>
                     <h4>from <span className="TeamName">{teams?.find(team => team.current)?.name}</span></h4>
                     <h3 className="RoundCounter">Round {round}</h3>
-                    <button type="button" className="Start" onClick={e => {
-                        setTimer(60)
-                        setStarted(true)
-                        setStartTimer(3)
-                    }}>Start</button>
+                    <button type="button" className="Start" onClick={startRound}>Start</button>
                     <button type="button" className="ShowScoreboard" onClick={e => setShowScores(!showScores)}>{showScores ? "Hide" : "Show"} Scores</button>
                     <Scoreboard teams={teams} scores={scores} />
                 </div>
