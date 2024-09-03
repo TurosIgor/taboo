@@ -6,6 +6,7 @@ import Timer from "../../components/Timer/Timer";
 import Scoreboard from "../../components/Scoreboard/Scoreboard";
 import "./Game.css"
 import UI from "../../components/UI/UI";
+import StartScreen from "../../components/StartScreen/StartScreen";
 
 export default function Game() {
     const [words, setWords] = useState(null);
@@ -99,20 +100,14 @@ export default function Game() {
     }
     return (
         <div className="GameContainer">
-            {started & startTimer < 1 ?
-            word && <div key={word} className="Game" isover={(timer === 0).toString()} >
+            {started & startTimer < 1 ? word && 
+            <div key={word} className="Game" isover={(timer === 0).toString()} >
                 <h2 className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
                 <UI passCard={passCard} nextCard={nextCard} setCounter={setCounter} setStarted={setStarted} setRound={setRound} round={round} timer={timer} setTimer={setTimer} setLastIndexes={setLastIndexes} lastIndexes={lastIndexes} scores={scores} teams={teams} dispatch={dispatch} />
-                </div> :
-                <div className={`StartMessage ${teams.find(team => team.current)?.id}`} style={{ "height": `${showScores ? 34 : 18}rem` }} >
-                    <h3>Next up: <span className="PlayerName">{teams.find(team => team.current)?.players.find(player => player.current)?.name}</span></h3>
-                    <h4>from <span className="TeamName">{teams?.find(team => team.current)?.name}</span></h4>
-                    <h3 className="RoundCounter">Round {round}</h3>
-                    <button type="button" className="Start" onClick={startRound}>Start</button>
-                    <button type="button" className="ShowScoreboard" onClick={e => setShowScores(!showScores)}>{showScores ? "Hide" : "Show"} Scores</button>
-                    <Scoreboard teams={teams} scores={scores} />
-                </div>
+            </div> 
+            :
+            <StartScreen teams={teams} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} scores={scores}/>
             }
         </div>
     )
