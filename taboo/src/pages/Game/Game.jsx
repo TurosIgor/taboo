@@ -5,10 +5,21 @@ import "./Game.css"
 import UI from "../../components/UI/UI";
 import StartScreen from "../../components/StartScreen/StartScreen";
 import useWords from "../../hooks/useWords";
+import useTimer from "../../hooks/useTimer";
+
+function getTeamForm(rounds) {
+    const teamForm = {};
+
+    for(let i = 1; i <= rounds; i++) {
+        teamForm[`round${i}`] = 0;
+    }
+
+    return teamForm;
+}
 
 export default function Game() {
+    const rounds = 8;
     const [counter, setCounter] = useState(0);
-    const [timer, setTimer] = useState(60);
     const [flipping, setFlipping] = useState(false);
     const [passed, setPassed] = useState(false);
     const { teams, dispatch } = useOutletContext();
@@ -18,9 +29,11 @@ export default function Game() {
     const [round, setRound] = useState(1);
     const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
-    const [scores, setScores] = useState({ team_1: {}, team_2: {} })
+    const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
     const [startTimer, setStartTimer] = useState(3)
+    const [isOver, setIsOver] = useState(false);
     const navigate = useNavigate();
+    const { timer, startRound } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter, round, getRandomIndex);
 
     function getRandomIndex(array) {
@@ -44,11 +57,6 @@ export default function Game() {
             setFlipping(true)
         }
     }
-    function startRound(e) {
-        setTimer(60)
-        setStarted(true)
-        setStartTimer(3)
-    }
     function swapTeams() {
         const nextTeam = teams.find(team => !team.current)
         setLastIndexes({ ...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0 })
@@ -67,20 +75,10 @@ export default function Game() {
                 setFlipping(false)
             }, 400)
         }
-        if (round > 16) {
+        if (round > (rounds * teams.length)) {
             navigate("/play/results")
         }
     }, [counter, round])
-
-    useEffect(() => {
-        if (started) {
-            if (startTimer > 0) {
-                setTimeout(() => {
-                    setStartTimer(startTimer - 1)
-                }, 1000)
-            }
-        }
-    }, [started, startTimer])
 
     if (started & startTimer > 0) {
         return <h1 className="StartTimer">{startTimer}</h1>
@@ -89,10 +87,10 @@ export default function Game() {
         <div className="GameContainer">
             {
             started & startTimer < 1 ? word && 
-            <div key={word} className="Game" isover={(timer === 0).toString()} >
+            <div key={word} className="Game" isover={isOver.toString()} >
                 <h2 className="PlayerName">{player?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
-                <UI passCard={passCard} nextCard={nextCard} setCounter={setCounter} setStarted={setStarted} setRound={setRound} round={round} timer={timer} setTimer={setTimer} scores={scores} teams={teams} dispatch={dispatch} swapTeams={swapTeams} team={team} />
+                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} scores={scores} team={team} />
             </div> 
             :
             <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} scores={scores}/>
