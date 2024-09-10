@@ -3,7 +3,7 @@ import { useReducer } from "react";
 
 export default function Play() {
     const initialTeams = [
-        { id: "team_1", points: 0, current: false, name: "Team 1", players: [{ name: "Player 1", current: false, id: "player_1" }, { name: "Player 2", current: false, id: "player_2" }] },
+        { id: "team_1", points: 0, current: true, name: "Team 1", players: [{ name: "Player 1", current: true, id: "player_1" }, { name: "Player 2", current: false, id: "player_2" }] },
         { id: "team_2", points: 0, current: false, name: "Team 2", players: [{ name: "Player 3", current: false, id: "player_3" }, { name: "Player 4", current: false, id: "player_4" }] }
     ]
 

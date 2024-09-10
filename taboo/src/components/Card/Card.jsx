@@ -46,7 +46,7 @@ export default function Card({ word, flipping, setFlipping, setPassed, passCard,
             const distance = touchStart - touchEnd
             const isLeftSwipe = distance > minSwipeDistance
             const isRightSwipe = distance < -minSwipeDistance
-            if ((isLeftSwipe || isRightSwipe) && letGoAt - touchedAt < 200) {
+            if ((isLeftSwipe || isRightSwipe) && letGoAt - touchedAt < 250) {
                 setFlipping(true)
                 setCounter(counter => counter + 1)
             }

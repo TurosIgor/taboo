@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
 
-export default function useWords(teams, dispatch, setLastIndexes, lastIndexes, counter, round) {
+export default function useWords(counter, round, getRandomIndex) {
     const [words, setWords] = useState(null);
     const [word, setWord] = useState(null);
-
-    function getRandomIndex(array) {
-        const index = Math.floor(Math.random() * array.length)
-        return index;
-    }
 
     useEffect(() => {
         async function readWords() {
@@ -20,9 +15,6 @@ export default function useWords(teams, dispatch, setLastIndexes, lastIndexes, c
             setWords(data.filter(wrd => wrd !== word));
         }
         readWords()
-        const teamNr = getRandomIndex(teams)
-        setLastIndexes({ ...lastIndexes, [`team_${teamNr + 1}`]: 0 })
-        dispatch({ type: "CHOOSE_TEAM", teamId: teams[teamNr].id, playerId: teams[teamNr].players[0].id })
     }, [])
 
     useEffect(() => {
