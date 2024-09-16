@@ -1,7 +1,7 @@
-import Card from "../../components/Card/Card"
+import "./Game.css"
 import React, { useState, useEffect } from "react"
 import { useOutletContext, useNavigate } from "react-router-dom";
-import "./Game.css"
+import Card from "../../components/Card/Card"
 import UI from "../../components/UI/UI";
 import StartScreen from "../../components/StartScreen/StartScreen";
 import useWords from "../../hooks/useWords";
@@ -16,6 +16,11 @@ function getTeamForm(rounds) {
     }
 
     return teamForm;
+}
+
+function getRandomIndex(array) {
+    const index = Math.floor(Math.random() * array.length)
+    return index;
 }
 
 export default function Game() {
@@ -37,11 +42,6 @@ export default function Game() {
     const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
     const navigate = useNavigate();
 
-    function getRandomIndex(array) {
-        const index = Math.floor(Math.random() * array.length)
-        return index;
-    }
-
     function swapTeams() {
         const nextTeam = teams.find(team => !team.current)
         setLastIndexes({ ...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0 })
@@ -50,7 +50,6 @@ export default function Game() {
         setTeam(nextTeam);
         setPlayer(nextPlayer);
     }
-
 
     useEffect(() => {
         setShowScores(false)
