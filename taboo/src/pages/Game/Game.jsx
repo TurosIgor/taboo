@@ -49,13 +49,14 @@ export default function Game() {
         }
     }
     function nextCard(e, isTouch) {
-        setScores({ ...scores, [team.id]: { ...scores[team.id], [`round${round}`]: scores[team.id][`round${round}`] ? scores[team.id][`round${round}`] + word.point : word.point } })
+        setScores({ ...scores, [team.id]: { ...scores[team.id], [`round${Math.ceil(round / 2)}`]: scores[team.id][`round${Math.ceil(round / 2)}`] ? scores[team.id][`round${Math.ceil(round / 2)}`] + word.point : word.point } })
         dispatch({ type: "ADD_POINT", teamId: team.id, points: word.point })
         setCounter(counter + 1)
         if (!isTouch) {
             setPassed(false)
             setFlipping(true)
         }
+        console.log(scores)
     }
     function swapTeams() {
         const nextTeam = teams.find(team => !team.current)
