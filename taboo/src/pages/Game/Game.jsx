@@ -6,6 +6,7 @@ import UI from "../../components/UI/UI";
 import StartScreen from "../../components/StartScreen/StartScreen";
 import useWords from "../../hooks/useWords";
 import useTimer from "../../hooks/useTimer";
+import useCard from "../../hooks/useCard";
 
 function getTeamForm(rounds) {
     const teamForm = {};
@@ -19,10 +20,8 @@ function getTeamForm(rounds) {
 
 export default function Game() {
     const rounds = 8;
-    const [counter, setCounter] = useState(0);
-    const [flipping, setFlipping] = useState(false);
-    const [passed, setPassed] = useState(false);
     const { teams, dispatch } = useOutletContext();
+    const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
     const [started, setStarted] = useState(false);
@@ -32,32 +31,16 @@ export default function Game() {
     const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
     const [startTimer, setStartTimer] = useState(3)
     const [isOver, setIsOver] = useState(false);
-    const navigate = useNavigate();
     const { timer, startRound } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter, round, getRandomIndex);
+    const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
+    const navigate = useNavigate();
 
     function getRandomIndex(array) {
         const index = Math.floor(Math.random() * array.length)
         return index;
     }
 
-    function passCard(e, isTouch) {
-        setCounter(counter + 1)
-        if (!isTouch) {
-            setPassed(true)
-            setFlipping(true)
-        }
-    }
-    function nextCard(e, isTouch) {
-        setScores({ ...scores, [team.id]: { ...scores[team.id], [`round${Math.ceil(round / 2)}`]: scores[team.id][`round${Math.ceil(round / 2)}`] ? scores[team.id][`round${Math.ceil(round / 2)}`] + word.point : word.point } })
-        dispatch({ type: "ADD_POINT", teamId: team.id, points: word.point })
-        setCounter(counter + 1)
-        if (!isTouch) {
-            setPassed(false)
-            setFlipping(true)
-        }
-        console.log(scores)
-    }
     function swapTeams() {
         const nextTeam = teams.find(team => !team.current)
         setLastIndexes({ ...lastIndexes, [nextTeam.id]: lastIndexes[nextTeam.id] <= nextTeam?.players.length - 2 ? lastIndexes[nextTeam?.id] + 1 : 0 })
@@ -70,16 +53,11 @@ export default function Game() {
 
     useEffect(() => {
         setShowScores(false)
-        
-        if(flipping) {
-            setTimeout(() => {
-                setFlipping(false)
-            }, 400)
-        }
+
         if (round > (rounds * teams.length)) {
             navigate("/play/results")
         }
-    }, [counter, round])
+    }, [round])
 
     if (started & startTimer > 0) {
         return <h1 className="StartTimer">{startTimer}</h1>
