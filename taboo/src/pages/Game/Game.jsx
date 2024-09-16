@@ -20,6 +20,7 @@ function getTeamForm(rounds) {
 
 export default function Game() {
     const rounds = 8;
+    const initialStartTimer = 3;
     const { teams, dispatch } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
@@ -29,7 +30,7 @@ export default function Game() {
     const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
     const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
-    const [startTimer, setStartTimer] = useState(3)
+    const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter, round, getRandomIndex);
