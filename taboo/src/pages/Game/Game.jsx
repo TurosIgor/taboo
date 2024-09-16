@@ -32,7 +32,7 @@ export default function Game() {
     const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
-    const { timer, startRound } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
+    const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter, round, getRandomIndex);
     const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ export default function Game() {
             <div key={word} className="Game" isover={isOver.toString()} >
                 <h2 className="PlayerName">{player?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
-                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} scores={scores} team={team} />
+                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} initialTimer={initialTimer} scores={scores} team={team} />
             </div> 
             :
             <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} scores={scores}/>

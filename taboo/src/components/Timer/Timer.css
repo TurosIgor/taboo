@@ -5,6 +5,7 @@
     color:#b6a7ff;
     border-radius: 1rem;
     box-shadow: .3rem .3rem .3rem #1a1a1a8c;
+    overflow: hidden;
 }
 .TimerSlider{
     background-image: linear-gradient(to left, rgb(235, 160, 245), rgb(229, 100, 246));

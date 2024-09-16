@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round) {
-    const initialTimer = 5;
+    const initialTimer = 60;
     const initialCountdown = 3;
     const [timer, setTimer] = useState(initialTimer);
     const [countdown, setCountdown] = useState(false);
@@ -43,5 +43,5 @@ export default function useTimer(setStarted, setIsOver, setStartTimer, swapTeams
         }
     }, [started, startTimer])
 
-    return {timer, startRound}
+    return {timer, startRound, initialTimer}
 }
