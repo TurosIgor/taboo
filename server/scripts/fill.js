@@ -23,7 +23,7 @@ async function getDataFromJSON() {
 
 async function fillDatabase() {
     try{
-        await mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING);
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("Successfully connected to the database!");
     
         const words = await getDataFromJSON();
