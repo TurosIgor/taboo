@@ -18,11 +18,6 @@ function getTeamForm(rounds) {
     return teamForm;
 }
 
-function getRandomIndex(array) {
-    const index = Math.floor(Math.random() * array.length)
-    return index;
-}
-
 export default function Game() {
     const rounds = 8;
     const initialStartTimer = 3;
@@ -38,7 +33,7 @@ export default function Game() {
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
-    const word = useWords(counter, round, getRandomIndex);
+    const word = useWords(counter, round);
     const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
     const navigate = useNavigate();
 
@@ -54,7 +49,15 @@ export default function Game() {
     useEffect(() => {
         setShowScores(false)
 
+        async function endSession() {
+            const response = await fetch("/api/v2/end");
+            if(!response.ok) {
+                console.log("something went wrong when aborting session")
+            }
+        }
+
         if (round > (rounds * teams.length)) {
+            endSession();
             navigate("/play/results")
         }
     }, [round])
