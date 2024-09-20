@@ -1,5 +1,6 @@
 import express from 'express'
 import session from 'express-session'
+import fs from 'fs/promises'
 import MongoStore from 'connect-mongo'
 import env from 'dotenv'
 import getWordToSend from './scripts/getWord.js'
@@ -38,7 +39,7 @@ app.get("/api/words", async (req, res) => {
         console.log(words)
         res.send(words)
     } catch(err) {
-        console.err(err)
+        console.error(err)
         res.status(500)
     }
 })
