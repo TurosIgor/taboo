@@ -14,6 +14,9 @@ async function getRandomWord(req) {
         { $match: { _id: { $nin: req.session.sentItems } } },
         { $sample: { size: 1 } }
     ]);
+    if(req.session.sentItems.includes(words[0]._id.toString())) {
+        return getRandomWord(req);
+    }
 
     return words[0];
 }
