@@ -16,7 +16,8 @@ export default function HowToPlayArrow ({ arrowIcon, filledIcon, disabled, setPa
     }, [hover])
 
     return (
-    <img className="HowToPlayArrow" 
+    <input className="HowToPlayArrow"
+        type="image"
         disabled={disabled} 
         src={icon} 
         onClick={e => setPage(page => page + stepIncrement)}
