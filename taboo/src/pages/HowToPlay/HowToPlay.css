@@ -1,0 +1,28 @@
+.HowToPlay {
+    display: flex;
+    height: 85vh;
+    width: 95vw;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: .9rem;
+    color: rgb(222, 232, 135);
+    text-shadow: .3rem .3rem .3rem #1a1a1a8c;
+}
+.SlideContainer {
+    height: 100vh;
+    overflow: auto;
+}
+.SlideButtons {
+    position: sticky;
+    top: 95vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.Logo {
+    height: 5rem;
+    cursor: pointer;
+}
+#root {
+    text-align: center;
+}

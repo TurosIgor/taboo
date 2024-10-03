@@ -33,7 +33,7 @@ export default function Game() {
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
-    const word = useWords(counter, round);
+    const word = useWords(counter);
     const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
     const navigate = useNavigate();
 
