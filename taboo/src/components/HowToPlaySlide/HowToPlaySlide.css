@@ -1,0 +1,57 @@
+.HowToPlaySlide .Team {
+    z-index: 0;
+    text-shadow: none;
+    overflow: visible;
+}
+.HowToPlaySlide  h2 {
+    font-size: 185%;
+}
+.HowToPlaySlide > h3 {
+    font-size: 185%;
+}
+.HowToPlaySlide .TabooCard {
+    text-shadow: none;
+    transform: scale(100%);
+}
+@media screen and (max-width: 550px) {
+    .HowToPlaySlide .Team {
+        transform: scale(85%);
+    }
+    .HowToPlaySlide  .TabooCard {
+        transform: scale(85%);
+    }
+    .HowToPlaySlide  h2 {
+        font-size: 140%;
+    }
+    .HowToPlaySlide > h3 {
+        font-size: 140%;
+    }
+
+}
+
+.HowToPlaySlide .AddPlayer {
+    position: initial;
+}
+.HowToPlaySlide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70vh;
+}
+.TitleText {
+    color: rgba(210, 179, 245, 0.75);
+    font-size: 130%;
+}
+.NextText {
+    color: rgb(145, 238, 145);
+}
+.PassText {
+    color: rgb(233, 145, 145);
+}
+.TabooRedText {
+    color: rgb(149, 49, 49);
+    text-shadow: none;
+}
+.VictoriousText {
+    color: rgb(145, 238, 145);
+}
