@@ -16,7 +16,7 @@ export default function HowToPlaySlide({ page }) {
             return (
             <div className="HowToPlaySlide SlideOne">
                 <h1>
-                    <span className="TitleText">Taboo</span> is a party game, designed to play with 4-16 people sharing a device.
+                    <span className="TitleText">Taboo</span> is a party game, designed to play with 2-8 people sharing a device.
                 </h1>
             </div>
             );
