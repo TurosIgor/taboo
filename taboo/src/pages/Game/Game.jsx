@@ -8,20 +8,10 @@ import useWords from "../../hooks/useWords";
 import useTimer from "../../hooks/useTimer";
 import useCard from "../../hooks/useCard";
 
-function getTeamForm(rounds) {
-    const teamForm = {};
-
-    for(let i = 1; i <= rounds; i++) {
-        teamForm[`round${i}`] = 0;
-    }
-
-    return teamForm;
-}
-
 export default function Game() {
     const rounds = 8;
     const initialStartTimer = 3;
-    const { teams, dispatch } = useOutletContext();
+    const { teams, dispatch, scores, setScores } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
@@ -29,7 +19,6 @@ export default function Game() {
     const [round, setRound] = useState(1);
     const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
-    const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
