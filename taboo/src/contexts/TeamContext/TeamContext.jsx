@@ -35,7 +35,7 @@ export const teamReducer = (state, action) => {
         case "ADD_POINT":
             return state.map(team => {
                 if (team.id === action.teamId) {
-                    return { ...team, points: (team.points + action.points) }
+                    return { ...team, points: (team.points + action.points), scores: {...team.scores, [`round${action.round}`]: team.scores[`round${action.round}`] + action.points} }
                 } else {
                     return team;
                 }
