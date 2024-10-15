@@ -11,7 +11,7 @@ import useCard from "../../hooks/useCard";
 export default function Game() {
     const rounds = 8;
     const initialStartTimer = 3;
-    const { teams, dispatch, scores, setScores } = useOutletContext();
+    const { teams, dispatch } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
@@ -23,7 +23,7 @@ export default function Game() {
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter);
-    const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
+    const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, setTeam, team, word, counter, setCounter, round)
     const navigate = useNavigate();
 
     function swapTeams() {
@@ -61,10 +61,10 @@ export default function Game() {
             <div key={word} className="Game" isover={isOver.toString()} >
                 <h2 className="PlayerName">{player?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
-                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} initialTimer={initialTimer} scores={scores} team={team} />
+                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} initialTimer={initialTimer} team={team} />
             </div> 
             :
-            <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} scores={scores}/>
+            <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} />
             }
         </div>
     )

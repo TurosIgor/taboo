@@ -1,6 +1,6 @@
 import "./Scoreboard.css"
 
-export default function Scoreboard({ teams, scores }) {
+export default function Scoreboard({ teams }) {
 
     return (
         <div className="Scoreboard">
@@ -16,9 +16,8 @@ export default function Scoreboard({ teams, scores }) {
                     {teams.map(team => (
                         <tr key={team.id} className={team.id}>
                             <td lang="en-GB">{team.name}</td>
-                            {Object.values(scores[team.id]).map((score, i) => <td key={`${team.id}_score${i}`}>{score}</td>)}
-                            {[...Array(8 - Object.values(scores[team.id]).length).keys()].map((score, i) => <td key={`${team.id}_score${i + Object.values(scores[team.id]).length}`}>0</td>)}
-                            <td>{Object.values(scores[team.id]).reduce((acc, curr) => acc += curr, 0)}</td>
+                            {Object.values(team.scores).map((score, i) => <td key={`${team.id}_score${i}`}>{score}</td>)}
+                            <td>{Object.values(team.scores).reduce((acc, curr) => acc += curr, 0)}</td>
                         </tr>
                     ))}
                 </tbody>

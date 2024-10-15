@@ -2,7 +2,11 @@ import { useOutletContext } from "react-router-dom";
 import Scoreboard from "../../components/Scoreboard/Scoreboard";
 
 export default function Results () {
-    const {teams, scores} = useOutletContext()
+    const {teams} = useOutletContext()
+
+    function getWinner() {
+        return teams.find()
+    }
 
     return (
     <div className="Results">
@@ -13,7 +17,7 @@ export default function Results () {
         <div className="PlayerStats">
 
         </div>
-        <Scoreboard teams={teams} scores={scores} />
+        <Scoreboard teams={teams} />
     </div>
     )
 }
