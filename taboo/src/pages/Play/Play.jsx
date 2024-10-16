@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { useReducer, useState } from "react";
-import { teamReducer } from "../../contexts/TeamContext/TeamContext";
+import { useReducer } from "react";
+import { teamReducer } from "../../hooks/teamReducer";
 
 function getTeamForm(rounds = 8) {
     const teamForm = {};
