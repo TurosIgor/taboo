@@ -30,7 +30,7 @@ export default function TeamForm ({ team, dispatch, teams, started }) {
                 </div>
                 ))}
             </div>
-            <button disabled={players.length > 7} type="button" className="AddPlayer" onClick={e => dispatch({type: "ADD_PLAYER", teamId: team.id, player:{ id: `player_${getPlayerId()}`, name: `Player ${getPlayerId()}`}})} >Add Player</button>
+            <button disabled={players.length > 7} type="button" className="AddPlayer" onClick={e => dispatch({type: "ADD_PLAYER", teamId: team.id, player:{ id: `player_${getPlayerId()}`, name: `Player ${getPlayerId()}`, points: 0, current: true}})} >Add Player</button>
         </div>
     )
 }
