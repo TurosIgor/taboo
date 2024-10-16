@@ -1,7 +1,6 @@
 import Timer from "../../components/Timer/Timer";
 
 export default function UI({ passCard, nextCard, round, timer, team, initialTimer }) {
-    console.log(team.scores[`round${Math.ceil(round / 2)}`])
     return (
     <div className="UI">
         <button type="button" className="Pass" onClick={e => passCard(e, false)} >Pass</button>
