@@ -17,7 +17,7 @@ export default function Game() {
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
     const [started, setStarted] = useState(false);
     const [round, setRound] = useState(1);
-    const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
+    const [lastIndexes, setLastIndexes] = useState({ team_1: 0, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
