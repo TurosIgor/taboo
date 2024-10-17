@@ -4,6 +4,7 @@ export default function Scoreboard({ teams }) {
 
     return (
         <div className="Scoreboard">
+            <h3>Scores</h3>
             <table>
                 <thead>
                     <tr>
