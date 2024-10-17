@@ -7,7 +7,7 @@ import UI from "../UI/UI.jsx"
 export default function HowToPlaySlide({ page }) {
     const navigate = useNavigate();
     const exampleTeam = {
-        id: "team_1", points: 0, current: true, name: "Team 1", players: [{ name: "Player 1", current: true, id: "player_1" }, { name: "Player 2", current: false, id: "player_2" }] 
+        id: "team_1", points: 0, scores: {round1: 0}, current: true, name: "Team 1", players: [{ name: "Player 1", current: true, id: "player_1" }, { name: "Player 2", current: false, id: "player_2" }] 
     }
     const exampleWord = {word: "Adventure", taboo: ["journey", "explore", "exciting", "trip", "risk"], point: 1};
 
@@ -44,7 +44,7 @@ export default function HowToPlaySlide({ page }) {
                     <h2>
                         If the player's team successfully guessed the top word, pressing the <span className="NextText">Next</span> button - or swiping right on mobile devices - grants the team the points associated with the word.
                     </h2>
-                    <UI passCard={null} nextCard={null} round={1} timer={60} scores={{team_1: {round1: 0}}} team={exampleTeam} initialTimer={60} />
+                    <UI passCard={null} nextCard={null} round={1} timer={60} team={exampleTeam} initialTimer={60} />
                     <h3>
                         If the player accidentally said any of the <span className="TabooRedText">Taboo</span> words, or they find the word too hard, they can <span className="PassText">Pass</span> - by also swiping left - and get another card.
                     </h3>

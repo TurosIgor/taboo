@@ -8,33 +8,22 @@ import useWords from "../../hooks/useWords";
 import useTimer from "../../hooks/useTimer";
 import useCard from "../../hooks/useCard";
 
-function getTeamForm(rounds) {
-    const teamForm = {};
-
-    for(let i = 1; i <= rounds; i++) {
-        teamForm[`round${i}`] = 0;
-    }
-
-    return teamForm;
-}
-
 export default function Game() {
-    const rounds = 8;
     const initialStartTimer = 3;
     const { teams, dispatch } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
+    const rounds = Object.values(team.scores).length;
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
     const [started, setStarted] = useState(false);
     const [round, setRound] = useState(1);
-    const [lastIndexes, setLastIndexes] = useState({ team_1: -1, team_2: -1 })
+    const [lastIndexes, setLastIndexes] = useState({ team_1: 0, team_2: -1 })
     const [showScores, setShowScores] = useState(false)
-    const [scores, setScores] = useState({ team_1: getTeamForm(rounds), team_2: getTeamForm(rounds) })
     const [startTimer, setStartTimer] = useState(initialStartTimer)
     const [isOver, setIsOver] = useState(false);
     const { timer, startRound, initialTimer } = useTimer(setStarted, setIsOver, setStartTimer, swapTeams, setRound, started, startTimer, round)
     const word = useWords(counter);
-    const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, team, word, counter, setCounter, scores, setScores, setShowScores, round)
+    const { flipping, setFlipping, passed, setPassed, nextCard, passCard } = useCard(dispatch, teams, setTeam, team, word, counter, setCounter, round)
     const navigate = useNavigate();
 
     function swapTeams() {
@@ -72,10 +61,10 @@ export default function Game() {
             <div key={word} className="Game" isover={isOver.toString()} >
                 <h2 className="PlayerName">{player?.name}'s turn</h2>
                 <Card setCounter={setCounter} setFlipping={setFlipping} setPassed={setPassed} passCard={passCard} nextCard={nextCard} word={word} flipping={flipping} passed={passed} />
-                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} initialTimer={initialTimer} scores={scores} team={team} />
+                <UI passCard={passCard} nextCard={nextCard} round={round} timer={timer} initialTimer={initialTimer} team={team} />
             </div> 
             :
-            <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} scores={scores}/>
+            <StartScreen teams={teams} team={team} player={player} showScores={showScores} setShowScores={setShowScores} round={round} startRound={startRound} />
             }
         </div>
     )
