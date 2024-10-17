@@ -1,3 +1,13 @@
+function getTeamForm(rounds = 1) {
+    const teamForm = {};
+
+    for(let i = 1; i <= rounds; i++) {
+        teamForm[`round${i}`] = 0;
+    }
+
+    return teamForm;
+}
+
 export const teamReducer = (teams, action) => {
     switch (action.type) {
         case "ADD_PLAYER":
@@ -48,6 +58,12 @@ export const teamReducer = (teams, action) => {
                     return { ...team, current: false, players: team.players.map(player => player ? {...player, current:false} : player) };
                 }
             });
+        case "RESET_SCORES":
+            return teams.map(team => {
+                return {...team, scores: getTeamForm(), points: 0, players: team.players.map(player => {
+                    return {...player, points: 0}
+                })}
+            })
         default:
             return teams;
     }
