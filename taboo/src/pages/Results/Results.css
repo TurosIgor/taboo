@@ -1,3 +1,9 @@
+.Results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .Winner {
     display: flex;
     flex-direction: column;
@@ -19,6 +25,9 @@
     text-shadow: .2rem .2rem .3rem #1a1a1ad5;
     max-width: 40rem;
 }
+.VictoryMessage  span, .MvpMessage  span {
+    font-size: 130%;
+}
 
 .WinnerName1, .MvpName1 {
     color: rgb(123, 202, 199);
@@ -30,10 +39,10 @@
 .Mvp {
     display: flex;
     flex-direction: column;
+    color: rgb(222, 240, 63);
     gap: .05rem;
     width: 42rem;
     max-width: 90vw;
-    color: rgba(189, 145, 240, 1);
     background-image: linear-gradient(to right, rgb(134, 220, 112), rgb(186, 225, 128), rgb(134, 220, 112));
     animation: slidebackground 3s linear infinite;
     padding: 1.5rem;
@@ -42,7 +51,7 @@
 }
 .MvpText {
     margin: 0;
-    padding: 1rem;
+    font-size: 3rem;
     display: flex;
     justify-content: center;
     gap: 2rem;
@@ -51,13 +60,27 @@
     text-align: center;
 }
 .MvpM {
-    animation: bounceM 3s ease infinite;
+    animation: bounceM 3s ease-out infinite;
 }
 .MvpV {
-    animation: bounceV 3s ease infinite;
+    animation: bounceV 3s ease-out infinite;
 }
 .MvpP {
-    animation: bounceP 3s ease infinite;
+    animation: bounceP 3s ease-out infinite;
+}
+.MvpPoints {
+    margin: 0;
+    font-size: 3rem;
+}
+.Results  .Scoreboard {
+    color: #1a1a1a;
+    box-shadow: .5rem .5rem 1rem #1a1a1a8c;
+}
+.NavButtons {
+    margin: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 @keyframes slidebackground {
     100% {
