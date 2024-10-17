@@ -1,7 +1,7 @@
-export const teamReducer = (state, action) => {
+export const teamReducer = (teams, action) => {
     switch (action.type) {
         case "ADD_PLAYER":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, players: [...team.players, action.player] };
                 } else {
@@ -9,7 +9,7 @@ export const teamReducer = (state, action) => {
                 }
             });
         case "REMOVE_PLAYER":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, players: team.players.filter(player => player.id !== action.playerId) };
                 } else {
@@ -17,7 +17,7 @@ export const teamReducer = (state, action) => {
                 }
             });
         case "RENAME_TEAM":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, name: action.name };
                 } else {
@@ -25,7 +25,7 @@ export const teamReducer = (state, action) => {
                 }
             });
         case "RENAME_PLAYER":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, players: team.players.map(player => player.id === action.playerId ? { ...player, name: action.name } : player) }
                 } else {
@@ -33,7 +33,7 @@ export const teamReducer = (state, action) => {
                 }
             });
         case "ADD_POINT":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, points: (team.points + action.points), scores: {...team.scores, [`round${action.round}`]: team.scores[`round${action.round}`] + action.points}, players: team.players.map(plyr => plyr.current ? { ...plyr, points: plyr.points + action.points} : plyr) }
                 } else {
@@ -41,7 +41,7 @@ export const teamReducer = (state, action) => {
                 }
             });
         case "CHOOSE_TEAM":
-            return state.map(team => {
+            return teams.map(team => {
                 if (team.id === action.teamId) {
                     return { ...team, current: true, players: team.players.map(player => player.id === action.playerId ? {...player, current: true} : {...player, current: false}) }
                 } else {
@@ -49,6 +49,6 @@ export const teamReducer = (state, action) => {
                 }
             });
         default:
-            return state;
+            return teams;
     }
 }
