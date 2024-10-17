@@ -9,11 +9,11 @@ import useTimer from "../../hooks/useTimer";
 import useCard from "../../hooks/useCard";
 
 export default function Game() {
-    const rounds = 8;
     const initialStartTimer = 3;
     const { teams, dispatch } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
+    const rounds = Object.values(team.scores).length;
     const [player, setPlayer] = useState(team?.players?.find(player => player.current));
     const [started, setStarted] = useState(false);
     const [round, setRound] = useState(1);
