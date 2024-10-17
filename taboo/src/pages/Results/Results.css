@@ -1,0 +1,101 @@
+.Winner {
+    font-size: .9rem;
+    color: rgb(222, 232, 135);
+    max-width: 45rem;
+    overflow: wrap;
+}
+.Winner  h1 {
+    text-shadow: .3rem .3rem .3rem #1a1a1a8c;
+    max-width: 40rem;
+}
+.VictoryMessage {
+    font-size: 2rem;
+}
+.Winner h2 {
+    text-shadow: .2rem .2rem .3rem #1a1a1ad5;
+    max-width: 40rem;
+}
+
+.WinnerName1, .MvpName1 {
+    color: rgb(123, 202, 199);
+}
+
+.WinnerName2, .MvpName2 {
+    color: rgb(233, 142, 142);
+}
+.Mvp {
+    display: flex;
+    flex-direction: column;
+    gap: .05rem;
+    width: 42rem;
+    max-width: 90vw;
+    color: rgba(189, 145, 240, 1);
+    background-image: linear-gradient(to right, rgb(134, 220, 112), rgb(186, 225, 128), rgb(134, 220, 112));
+    animation: slidebackground 3s linear infinite;
+    padding: 1.5rem;
+    border-radius: 10rem;
+    box-shadow: .5rem .5rem 1rem #1a1a1a8c;
+}
+.MvpText {
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+.MvpText  span {
+    text-align: center;
+}
+.MvpM {
+    animation: bounceM 3s ease infinite;
+}
+.MvpV {
+    animation: bounceV 3s ease infinite;
+}
+.MvpP {
+    animation: bounceP 3s ease infinite;
+}
+@keyframes slidebackground {
+    100% {
+        background-position: 45rem;
+    }
+}
+@keyframes bounceM {
+    90% {
+        transform: translateY(0rem);
+    }
+    95% {
+        transform: translateY(-0.75rem);
+    }
+    100% {
+        transform: translateY(0rem);
+    }
+}
+@keyframes bounceV {
+    0% {
+        transform: translateY(-0.75rem);
+    }
+    5% {
+        transform: translateY(0rem);
+    }
+    95% {
+        transform: translateY(0rem);
+    }
+    100% {
+        transform: translateY(-0.75rem);
+    }
+}
+@keyframes bounceP {
+    0% {
+        transform: translateY(0rem);
+    }
+    5% {
+        transform: translateY(-0.75rem);
+    }
+    10% {
+        transform: translateY(0rem);
+    }
+    100% {
+        transform: translateY(0rem);
+    }
+}
