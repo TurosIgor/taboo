@@ -8,7 +8,7 @@ export default function Scoreboard({ teams }) {
                 <thead>
                     <tr>
                         <th>Team</th>
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map(round => <th key={`round${round}`}>{round}</th>)}
+                        {Object.keys(teams[0].scores).map(round => <th key={round}>{round.slice(5)}</th>)}
                         <th>Total</th>
                     </tr>
                 </thead>
