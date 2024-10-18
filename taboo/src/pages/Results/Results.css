@@ -36,6 +36,12 @@
 .WinnerName2, .MvpName2 {
     color: rgb(233, 142, 142);
 }
+.Mvp2 {
+    background-image: linear-gradient(to right, rgb(233, 142, 142), rgb(245, 179, 179), rgb(233, 142, 142));
+}
+.Mvp1 {
+    background-image: linear-gradient(to right, rgb(145, 175, 240), rgb(179, 200, 245), rgb(145, 175, 240));
+}
 .Mvp {
     display: flex;
     flex-direction: column;
@@ -43,7 +49,6 @@
     gap: .05rem;
     width: 42rem;
     max-width: 90vw;
-    background-image: linear-gradient(to right, rgb(134, 220, 112), rgb(186, 225, 128), rgb(134, 220, 112));
     animation: slidebackground 3s linear infinite;
     padding: 1.5rem;
     border-radius: 10rem;
