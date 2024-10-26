@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   backend:
@@ -13,7 +13,15 @@ services:
   mongo:
     build: database/.
     healthcheck:
-      test: echo 'use tabooDB' && echo 'db.runCommand("ping").ok'
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/tabooDB --quiet
       interval: 10s
       timeout: 10s
       retries: 5
+  frontend:
+    build: taboo/.
+    ports:
+      - '5173:80'
+    depends_on:
+      - backend
+    env_file:
+      - taboo/.env
