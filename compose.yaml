@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    build: server/.
+    image: igorturos/taboo-backend:0.1
     ports:
       - "3000:3000"
     env_file:
@@ -11,16 +11,16 @@ services:
       mongo:
         condition: service_healthy
   mongo:
-    build: database/.
+    image: igorturos/taboo-database:0.1
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/tabooDB --quiet
       interval: 10s
       timeout: 10s
       retries: 5
   frontend:
-    build: taboo/.
+    image: igorturos/taboo-frontend:0.1
     ports:
-      - '5173:80'
+      - "5173:80"
     depends_on:
       - backend
     env_file:
