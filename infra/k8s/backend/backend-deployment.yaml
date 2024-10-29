@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: igorturos/taboo-backend:0.1
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo-0.mongo-svc.default.svc.cluster.local:27017,mongo-1.mongo-svc.default.svc.cluster.local:27017,mongo-2.mongo-svc.default.svc.cluster.local:27017/tabooDB?replicaSet=rs0"
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: session-secret
+              key: SESSION_SECRET
+        resources:
+          limits: 
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
