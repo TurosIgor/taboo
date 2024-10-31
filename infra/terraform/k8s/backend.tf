@@ -1,4 +1,4 @@
-resource "kubernetes_deployment" "backend" {
+resource "kubernetes_deployment_v1" "backend" {
   metadata {
     name = "backend"
   }
@@ -28,7 +28,7 @@ resource "kubernetes_deployment" "backend" {
             name = "SESSION_SECRET"
             value_from {
               secret_key_ref {
-                name = kubernetes_secret.session_secret.metadata[0].name
+                name = kubernetes_secret_v1.session_secret.metadata[0].name
                 key = "SESSION_SECRET"
               }
             }
@@ -46,10 +46,10 @@ resource "kubernetes_deployment" "backend" {
       }
     }
   }
-  depends_on = [ kubernetes_stateful_set.mongo ]
+  depends_on = [ kubernetes_stateful_set_v1.mongo ]
 }
 
-resource "kubernetes_service" "backend_svc" {
+resource "kubernetes_service_v1" "backend_svc" {
   metadata {
     name = "backend-svc"
   }
@@ -67,13 +67,13 @@ resource "kubernetes_service" "backend_svc" {
   }
 }
 
-resource "kubernetes_secret" "session_secret" {
+resource "kubernetes_secret_v1" "session_secret" {
   metadata {
     name = "session-secret"
   }
 
   type = "Opaque"
   data = {
-    "SESSION_SECRET" = "<base64 encoded session secret>"
+    "SESSION_SECRET" = "<base64 encoded secret string>"
   }
 }

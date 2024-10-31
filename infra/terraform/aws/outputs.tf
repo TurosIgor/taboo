@@ -25,3 +25,15 @@ output "be_image_uri" {
 output "fe_image_uri" {
     value = data.aws_ecr_image.fe_image.image_uri
 }
+
+output "ebs_csi_role_arn" {
+  value = aws_iam_role.ebs_csi_driver.arn
+}
+
+output "eks_node_group" {
+    value = aws_eks_node_group.eks_nodes.node_group_name
+}
+
+output "eks_role_policy" {
+  value = aws_iam_role_policy_attachment.eks_policy_attachment.id
+}

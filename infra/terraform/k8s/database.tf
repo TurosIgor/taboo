@@ -1,4 +1,4 @@
-resource "kubernetes_stateful_set" "mongo" {
+resource "kubernetes_stateful_set_v1" "mongo" {
   metadata {
     name = "mongo"
   }
@@ -10,7 +10,7 @@ resource "kubernetes_stateful_set" "mongo" {
       }
     }
 
-    service_name = kubernetes_service.mongo_svc.metadata[0].name
+    service_name = kubernetes_service_v1.mongo_svc.metadata[0].name
     replicas = 3
     template {
       metadata {
@@ -40,7 +40,7 @@ resource "kubernetes_stateful_set" "mongo" {
         volume {
           name = "mongo-init"
           config_map {
-            name = kubernetes_config_map.mongo_init_config.metadata[0].name
+            name = kubernetes_config_map_v1.mongo_init_config.metadata[0].name
           }
         }
       }
@@ -53,7 +53,7 @@ resource "kubernetes_stateful_set" "mongo" {
 
       spec {
         access_modes = ["ReadWriteOnce"]
-        storage_class_name = kubernetes_storage_class.mongo_storage.metadata[0].name
+        storage_class_name = kubernetes_storage_class_v1.mongo_storage.metadata[0].name
         resources {
           requests = {
             "storage" = "3Gi"
@@ -62,23 +62,23 @@ resource "kubernetes_stateful_set" "mongo" {
       }
     }
   }
+  depends_on = [ var.eks_node_group ]
 }
 
-resource "kubernetes_storage_class" "mongo_storage" {
+resource "kubernetes_storage_class_v1" "mongo_storage" {
   metadata {
     name = "mongo-storage"
   }
 
-  storage_provisioner = "kubernetes.io/aws-ebs"
+  storage_provisioner = "ebs.csi.aws.com"
   parameters = {
     "type" = "gp2"
     "fsType" = "ext4"
   }
   reclaim_policy = "Retain"
-  volume_binding_mode = "WaitForFirstConsumer"
 }
 
-resource "kubernetes_service" "mongo_svc" {
+resource "kubernetes_service_v1" "mongo_svc" {
   metadata {
     name = "mongo-svc"
   }
@@ -95,60 +95,57 @@ resource "kubernetes_service" "mongo_svc" {
   }
 }
 
-resource "kubernetes_config_map" "mongo_init_config" {
+resource "kubernetes_config_map_v1" "mongo_init_config" {
     metadata {
       name = "mongo-init-config"
     }
 
     data = {
-      "init.sh" = <<EOT
-      #!/bin/bash -eux
-    mongod --bind_ip_all --replSet rs0 &
-
-    until mongosh --eval "print(\"MongoDB is up\")" > /dev/null 2>&1; do
-      echo "Waiting for MongoDB to start..."
-      sleep 2
-    done
-
-    if [ "$(hostname)" == "mongo-0" ]; then
-      echo "Initializing replica set..."
-      mongosh --eval "
-        rs.initiate({
-          _id: 'rs0',
-          members: [
-            { _id: 0, host: 'mongo-0.mongo-svc.default.svc.cluster.local:27017', priority: 2 },
-            { _id: 1, host: 'mongo-1.mongo-svc.default.svc.cluster.local:27017', priority: 1 },
-            { _id: 2, host: 'mongo-2.mongo-svc.default.svc.cluster.local:27017', priority: 1 }
-          ]
-        })
-      "
-      
-    else
-      echo "Waiting for primary to initialize replica set..."
-      until mongosh --host mongo-0.mongo-svc.default.svc.cluster.local:27017 --eval "rs.status()" > /dev/null 2>&1; do
-        echo "Waiting for replica set to be initialized..."
-        sleep 2
-      done
-    fi
-    
-    while true; do
-      PRIMARY_STATUS=$(mongosh --eval "rs.status().members.forEach(m => { if (m.self) print(m.stateStr); })" | grep "PRIMARY" || true)
-      
-      if [ "$PRIMARY_STATUS" == "PRIMARY" ]; then
-        echo "This pod is primary, proceeding with data import..."
-        
-        mongoimport --uri="mongodb://localhost:27017/tabooDB" --collection words --file /docker-entrypoint-initdb.d/taboo.json --jsonArray
-        
-        break
-      fi
-
-      echo "Waiting for this pod to become primary..."
-      sleep 5
-    done      
-
-    rm -f /docker-entrypoint-initdb.d/taboo.json
-
-    wait
-      EOT
+      "init.sh" = join("\n", [
+      "#!/bin/bash -eux",
+      "mongod --bind_ip_all --replSet rs0 &",
+      "",
+      "until mongosh --eval \"print(\\\"MongoDB is up\\\")\" > /dev/null 2>&1; do",
+      "  echo \"Waiting for MongoDB to start...\"",
+      "  sleep 2",
+      "done",
+      "",
+      "if [ \"$(hostname)\" == \"mongo-0\" ]; then",
+      "  echo \"Initializing replica set...\"",
+      "  mongosh --eval \"",
+      "    rs.initiate({",
+      "      _id: 'rs0',",
+      "      members: [",
+      "        { _id: 0, host: 'mongo-0.mongo-svc.default.svc.cluster.local:27017', priority: 2 },",
+      "        { _id: 1, host: 'mongo-1.mongo-svc.default.svc.cluster.local:27017', priority: 1 },",
+      "        { _id: 2, host: 'mongo-2.mongo-svc.default.svc.cluster.local:27017', priority: 1 }",
+      "      ]",
+      "    })",
+      "  \"",
+      "else",
+      "  echo \"Waiting for primary to initialize replica set...\"",
+      "  until mongosh --host mongo-0.mongo-svc.default.svc.cluster.local:27017 --eval \"rs.status()\" > /dev/null 2>&1; do",
+      "    echo \"Waiting for replica set to be initialized...\"",
+      "    sleep 2",
+      "  done",
+      "fi",
+      "",
+      "while true; do",
+      "  PRIMARY_STATUS=$(mongosh --eval \"rs.status().members.forEach(m => { if (m.self) print(m.stateStr); })\" | grep \"PRIMARY\" || true)",
+      "",
+      "  if [ \"$PRIMARY_STATUS\" == \"PRIMARY\" ]; then",
+      "    echo \"This pod is primary, proceeding with data import...\"",
+      "    mongoimport --uri=\"mongodb://localhost:27017/tabooDB\" --collection words --file /docker-entrypoint-initdb.d/taboo.json --jsonArray",
+      "    break",
+      "  fi",
+      "",
+      "  echo \"Waiting for this pod to become primary...\"",
+      "  sleep 5",
+      "done",
+      "",
+      "rm -f /docker-entrypoint-initdb.d/taboo.json",
+      "",
+      "wait"
+    ])
     }
 }

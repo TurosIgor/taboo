@@ -22,3 +22,15 @@ variable "fe_image_uri" {
     description = "Frontend image URI of Taboo game"
     type = string
 }
+variable "ebs_csi_role_arn" {
+  description = "ARN of EBS CSI role to manage Volumes"
+  type = string
+}
+variable "eks_node_group" {
+  description = "Name of EKS node group"
+  type = string
+}
+variable "eks_role_policy" {
+  description = "ID of EKS cluster role policy"
+  type = string
+}
