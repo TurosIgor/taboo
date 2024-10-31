@@ -36,3 +36,11 @@ data "aws_iam_policy_document" "worker_assume_role_policy" {
     }
   }
 }
+data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
+  statement {
+    effect = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    resources = ["*"]
+  }
+}
