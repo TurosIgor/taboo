@@ -53,7 +53,7 @@ pipeline {
                 stage('Backend') {
                     when { expression { env.BUILD_BACKEND == 'true' } }
                     steps {
-                        dir('backend') {
+                        dir('server') {
                             script {
                                 sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION} ."
                                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
@@ -66,7 +66,7 @@ pipeline {
                 stage('Frontend') {
                     when { expression { env.BUILD_FRONTEND == 'true' } }
                     steps {
-                        dir('frontend') {
+                        dir('taboo') {
                             script {
                                 sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION} ."
                                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
