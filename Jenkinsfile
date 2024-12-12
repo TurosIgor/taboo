@@ -99,9 +99,9 @@ pipeline {
                     cd terraform
                     terraform init
                     terraform apply -auto-approve \
-                        -var "database_image_version=${env.CURRENT_DATABASE_VERSION}" \
-                        -var "backend_image_version=${env.CURRENT_BACKEND_VERSION}" \
-                        -var "frontend_image_version=${env.CURRENT_FRONTEND_VERSION}"
+                        -var "db_image_version=${env.CURRENT_DATABASE_VERSION}" \
+                        -var "be_image_version=${env.CURRENT_BACKEND_VERSION}" \
+                        -var "fe_image_version=${env.CURRENT_FRONTEND_VERSION}"
                     """
                 }
             }
