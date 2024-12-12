@@ -29,8 +29,8 @@ pipeline {
                 script {
                     def changedFiles = sh(script: 'git diff --name-only HEAD~1 HEAD', returnStdout: true).trim().split('\n')
                     env.BUILD_DATABASE = changedFiles.any { it.startsWith('database/') } ? 'true' : 'false'
-                    env.BUILD_BACKEND = changedFiles.any { it.startsWith('backend/') } ? 'true' : 'false'
-                    env.BUILD_FRONTEND = changedFiles.any { it.startsWith('frontend/') } ? 'true' : 'false'
+                    env.BUILD_BACKEND = changedFiles.any { it.startsWith('server/') } ? 'true' : 'false'
+                    env.BUILD_FRONTEND = changedFiles.any { it.startsWith('taboo/') } ? 'true' : 'false'
                 }
             }
         }
