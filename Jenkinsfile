@@ -18,9 +18,9 @@ pipeline {
                         def (key, value) = it.split('=')
                         [(key): value]
                     }
-                    env.CURRENT_DATABASE_VERSION = versions.database ?: params.VERSION
-                    env.CURRENT_BACKEND_VERSION = versions.backend ?: params.VERSION
-                    env.CURRENT_FRONTEND_VERSION = versions.frontend ?: params.VERSION
+                    env.CURRENT_DATABASE_VERSION = versions.database ?: env.VERSION
+                    env.CURRENT_BACKEND_VERSION = versions.backend ?: env.VERSION
+                    env.CURRENT_FRONTEND_VERSION = versions.frontend ?: env.VERSION
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
                                 sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION} ."
                                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
                                 sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION}"
-                                env.CURRENT_DATABASE_VERSION = params.VERSION
+                                env.CURRENT_DATABASE_VERSION = env.VERSION
                             }
                         }
                     }
@@ -57,7 +57,7 @@ pipeline {
                                 sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION} ."
                                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
                                 sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION}"
-                                env.CURRENT_BACKEND_VERSION = params.VERSION
+                                env.CURRENT_BACKEND_VERSION = env.VERSION
                             }
                         }
                     }
@@ -70,7 +70,7 @@ pipeline {
                                 sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION} ."
                                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
                                 sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION}"
-                                env.CURRENT_FRONTEND_VERSION = params.VERSION
+                                env.CURRENT_FRONTEND_VERSION = env.VERSION
                             }
                         }
                     }
