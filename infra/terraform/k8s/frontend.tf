@@ -19,7 +19,7 @@ resource "kubernetes_deployment_v1" "frontend" {
       spec {
         container {
           name = "frontend"
-          image = var.fe_image_uri
+          image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${var.fe_image_version}"
           env {
             name = "API_URL"
             value = "/api"

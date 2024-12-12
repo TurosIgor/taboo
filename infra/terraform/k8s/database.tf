@@ -22,7 +22,7 @@ resource "kubernetes_stateful_set_v1" "mongo" {
       spec {
         container {
           name = "mongo"
-          image = var.db_image_uri
+          image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${var.fe_image_version}"
           port {
             container_port = 27017
           }

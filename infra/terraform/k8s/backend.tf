@@ -19,7 +19,7 @@ resource "kubernetes_deployment_v1" "backend" {
       spec {
         container {
           name = "backend"
-          image = var.be_image_uri
+          image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${var.be_image_version}"
           env {
             name = "MONGO_URI"
             value = "mongodb://mongo-0.mongo-svc.default.svc.cluster.local:27017,mongo-1.mongo-svc.default.svc.cluster.local:27017,mongo-2.mongo-svc.default.svc.cluster.local:27017/tabooDB?replicaSet=rs0"
