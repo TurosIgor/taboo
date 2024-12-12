@@ -29,12 +29,12 @@ module "aws" {
 module "kubernetes" {
     source = "./k8s"
 
+    be_image_version = var.be_image_version
+    fe_image_version = var.fe_image_version
+    db_image_version = var.db_image_version
     cluster_endpoint = module.aws.cluster_endpoint
     cluster_certificate_authority = module.aws.cluster_certificate_authority
     cluster_token = module.aws.cluster_token
-    db_image_uri = module.aws.db_image_uri
-    be_image_uri = module.aws.be_image_uri
-    fe_image_uri = module.aws.fe_image_uri
     ebs_csi_role_arn = module.aws.ebs_csi_role_arn
     eks_node_group = module.aws.eks_node_group
     eks_role_policy = module.aws.eks_role_policy
