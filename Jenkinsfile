@@ -88,7 +88,7 @@ pipeline {
                     writeFile file: 'versions.txt', text: newVersions
                     sh "git add versions.txt"
                     sh "git commit -m 'Update image versions'"
-                    sh "git push origin main"
+                    sh "git push origin master"
                 }
             }
         }
