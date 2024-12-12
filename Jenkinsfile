@@ -95,8 +95,9 @@ pipeline {
         }
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
+                dir('infra') {
                     sh """
+                    cd terraform
                     terraform init
                     terraform apply -auto-approve \
                         -var "database_image_version=${env.CURRENT_DATABASE_VERSION}" \
