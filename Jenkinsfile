@@ -3,14 +3,26 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-    }
-    parameters {
-        string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version number for the Docker images')
+        VERSION = "${BUILD_NUMBER}"
     }
     stages {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/your-repo.git', branch: 'main'
+            }
+        }
+        stage('Load Current Versions') {
+            steps {
+                script {
+                    def versionFile = readFile('versions.txt').trim()
+                    def versions = versionFile.split('\n').collectEntries { 
+                        def (key, value) = it.split('=')
+                        [(key): value]
+                    }
+                    env.CURRENT_DATABASE_VERSION = versions.database ?: params.VERSION
+                    env.CURRENT_BACKEND_VERSION = versions.backend ?: params.VERSION
+                    env.CURRENT_FRONTEND_VERSION = versions.frontend ?: params.VERSION
+                }
             }
         }
         stage('Determine Changes') {
@@ -26,64 +38,71 @@ pipeline {
         stage('Build and Push Images') {
             parallel {
                 stage('Database') {
-                    when {
-                        expression { env.BUILD_DATABASE == 'true' }
-                    }
+                    when { expression { env.BUILD_DATABASE == 'true' } }
                     steps {
                         dir('database') {
-                            sh "docker build -t <ecr-repo>/database:${params.VERSION} ."
-                            sh '''
-                            aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <ecr-repo>
-                            docker push <ecr-repo>/database:${params.VERSION}
-                            '''
+                            script {
+                                sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION} ."
+                                sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION}"
+                                env.CURRENT_DATABASE_VERSION = params.VERSION
+                            }
                         }
                     }
                 }
                 stage('Backend') {
-                    when {
-                        expression { env.BUILD_BACKEND == 'true' }
-                    }
+                    when { expression { env.BUILD_BACKEND == 'true' } }
                     steps {
                         dir('backend') {
-                            sh "docker build -t <ecr-repo>/backend:${params.VERSION} ."
-                            sh '''
-                            aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <ecr-repo>
-                            docker push <ecr-repo>/backend:${params.VERSION}
-                            '''
+                            script {
+                                sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION} ."
+                                sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION}"
+                                env.CURRENT_BACKEND_VERSION = params.VERSION
+                            }
                         }
                     }
                 }
                 stage('Frontend') {
-                    when {
-                        expression { env.BUILD_FRONTEND == 'true' }
-                    }
+                    when { expression { env.BUILD_FRONTEND == 'true' } }
                     steps {
                         dir('frontend') {
-                            sh "docker build -t <ecr-repo>/frontend:${params.VERSION} ."
-                            sh '''
-                            aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <ecr-repo>
-                            docker push <ecr-repo>/frontend:${params.VERSION}
-                            '''
+                            script {
+                                sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION} ."
+                                sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION}"
+                                env.CURRENT_FRONTEND_VERSION = params.VERSION
+                            }
                         }
                     }
                 }
             }
         }
-        stage('Terraform Apply') {
-            when {
-                expression {
-                    env.BUILD_DATABASE == 'true' || env.BUILD_BACKEND == 'true' || env.BUILD_FRONTEND == 'true'
+        stage('Update Version File') {
+            steps {
+                script {
+                    def newVersions = """
+                    database=${env.CURRENT_DATABASE_VERSION}
+                    backend=${env.CURRENT_BACKEND_VERSION}
+                    frontend=${env.CURRENT_FRONTEND_VERSION}
+                    """.trim()
+                    writeFile file: 'versions.txt', text: newVersions
+                    sh "git add versions.txt"
+                    sh "git commit -m 'Update image versions'"
+                    sh "git push origin main"
                 }
             }
+        }
+        stage('Terraform Apply') {
             steps {
                 dir('terraform') {
-                    sh '''
+                    sh """
                     terraform init
                     terraform apply -auto-approve \
-                        -var "database_image_version=${params.VERSION}" \
-                        -var "backend_image_version=${params.VERSION}" \
-                        -var "frontend_image_version=${params.VERSION}"
-                    '''
+                        -var "database_image_version=${env.CURRENT_DATABASE_VERSION}" \
+                        -var "backend_image_version=${env.CURRENT_BACKEND_VERSION}" \
+                        -var "frontend_image_version=${env.CURRENT_FRONTEND_VERSION}"
+                    """
                 }
             }
         }
