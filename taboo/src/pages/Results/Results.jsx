@@ -40,7 +40,7 @@ export default function Results () {
         </div>
         <div className="PlayerStats">
         {/* 
-            TODO
+            TODO TEST
         */}
         </div>
         <Scoreboard teams={teams} />
