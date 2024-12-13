@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     def versionFile = readFile('versions.txt').trim()
-                    def versions = versionFile.split('\n').collectEntries { 
+                    def versions = versionFile.split(';').collectEntries { 
                         def (key, value) = it.split('=')
                         [(key): value]
                     }
@@ -80,11 +80,7 @@ pipeline {
         stage('Update Version File') {
             steps {
                 script {
-                    def newVersions = """
-                    database=${env.CURRENT_DATABASE_VERSION}
-                    backend=${env.CURRENT_BACKEND_VERSION}
-                    frontend=${env.CURRENT_FRONTEND_VERSION}
-                    """.trim()
+                    def newVersions = "database=${env.CURRENT_DATABASE_VERSION};backend=${env.CURRENT_BACKEND_VERSION};frontend=${env.CURRENT_FRONTEND_VERSION}".trim()
                     writeFile file: 'versions.txt', text: newVersions
                     sh "git add versions.txt"
                     sh "git commit -m 'Update image versions'"
