@@ -4,7 +4,7 @@ import { useOutletContext, useNavigate } from "react-router-dom"
 import "./Teams.css"
 
 export default function Teams () {
-    const { teams, dispatch } = useOutletContext();
+    const { teams, dispatch, colors } = useOutletContext();
     const navigate = useNavigate();
     const [started, setStarted] = useState(false)
     const isEmpty = team => team.players.length < 1;
@@ -12,7 +12,7 @@ export default function Teams () {
     return(
         <div className="TeamManager">
             <div className="Teams" >
-        <button type="button" className="Start" disabled={teams.some(isEmpty)} onClick={e => {
+        <button type="button" className="Start" style={{backgroundImage: `linear-gradient(to right, ${colors.uiColor.from}, ${colors.uiColor.to})`}} disabled={teams.some(isEmpty)} onClick={e => {
             setStarted(true)
             setTimeout(() => {
                 navigate("/play/game")
