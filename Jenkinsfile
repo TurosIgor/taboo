@@ -86,6 +86,8 @@ pipeline {
                         script {
                             def newVersions = "database=${env.CURRENT_DATABASE_VERSION};backend=${env.CURRENT_BACKEND_VERSION};frontend=${env.CURRENT_FRONTEND_VERSION}".trim()
                             writeFile file: 'versions.txt', text: newVersions
+                            bat "git config --global user.email \"valyp99@gmail.com\""
+                            bat "git config --global user.name \"TurosIgor\""
                             bat "git add versions.txt"
                             bat "git commit -m \"Update image versions\""
                             bat "git push origin master"
