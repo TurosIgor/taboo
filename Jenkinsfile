@@ -1,21 +1,21 @@
 pipeline {
     agent any
     environment {
-        AWS_CREDENTIALS=credentials("aws-credentials")
+        AWS_CREDENTIALS=credentials('aws-credentials')
         VERSION = "${BUILD_NUMBER}"
     }
     stages {
         stage('Checkout') {
             steps {
-                git url: "https://github.com/TurosIgor/taboo.git", branch: "master"
+                git url: 'https://github.com/TurosIgor/taboo.git', branch: 'master'
             }
         }
         stage('Load Current Versions') {
             steps {
                 script {
-                    def versionFile = readFile("versions.txt").trim()
-                    def versions = versionFile.split(";").collectEntries { 
-                        def (key, value) = it.split("=")
+                    def versionFile = readFile('versions.txt').trim()
+                    def versions = versionFile.split(';').collectEntries { 
+                        def (key, value) = it.split('=')
                         [(key): value]
                     }
                     env.CURRENT_DATABASE_VERSION = versions.database ?: env.VERSION
@@ -27,7 +27,7 @@ pipeline {
         stage('Determine Changes') {
             steps {
                 script {
-                    def changedFiles = bat(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim().split("\r\n")
+                    def changedFiles = sh(script: 'git diff --name-only HEAD~1 HEAD', returnStdout: true).trim().split('\n')
                     env.VERSION_CHANGE = changedFiles.any { it.startsWith('versions')} ? 'true' : 'false'
                     env.BUILD_DATABASE = changedFiles.any { it.startsWith('database/') } ? 'true' : 'false'
                     env.BUILD_BACKEND = changedFiles.any { it.startsWith('server/') } ? 'true' : 'false'
@@ -45,9 +45,9 @@ pipeline {
                             steps {
                                 dir('database') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION} ."
-                                        bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION}"
+                                        sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION} ."
+                                        sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                        sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION}"
                                         env.CURRENT_DATABASE_VERSION = env.VERSION
                                     }
                                 }
@@ -58,9 +58,9 @@ pipeline {
                             steps {
                                 dir('server') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION} ."
-                                        bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION}"
+                                        sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION} ."
+                                        sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                        sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION}"
                                         env.CURRENT_BACKEND_VERSION = env.VERSION
                                     }
                                 }
@@ -71,9 +71,9 @@ pipeline {
                             steps {
                                 dir('taboo') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION} ."
-                                        bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION}"
+                                        sh "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION} ."
+                                        sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
+                                        sh "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION}"
                                         env.CURRENT_FRONTEND_VERSION = env.VERSION
                                     }
                                 }
@@ -86,23 +86,21 @@ pipeline {
                         script {
                             def newVersions = "database=${env.CURRENT_DATABASE_VERSION};backend=${env.CURRENT_BACKEND_VERSION};frontend=${env.CURRENT_FRONTEND_VERSION}".trim()
                             writeFile file: 'versions.txt', text: newVersions
-                            bat "git config --global user.email \"valyp99@gmail.com\""
-                            bat "git config --global user.name \"TurosIgor\""
-                            bat "git add versions.txt"
-                            bat "git commit -m \"Update image versions\""
-                            bat "git push origin master"
+                            sh "git add versions.txt"
+                            sh "git commit -m 'Update image versions'"
+                            sh "git push origin master"
                         }
                     }
                 }
                 stage('Terraform Apply') {
                     steps {
                         dir('infra') {
-                            bat """
-                            cd terraform ^
-                            terraform init ^
-                            terraform apply -auto-approve ^
-                                -var "db_image_version=${env.CURRENT_DATABASE_VERSION}" ^
-                                -var "be_image_version=${env.CURRENT_BACKEND_VERSION}" ^
+                            sh """
+                            cd terraform
+                            terraform init
+                            terraform apply -auto-approve \
+                                -var "db_image_version=${env.CURRENT_DATABASE_VERSION}" \
+                                -var "be_image_version=${env.CURRENT_BACKEND_VERSION}" \
                                 -var "fe_image_version=${env.CURRENT_FRONTEND_VERSION}"
                             """
                         }
