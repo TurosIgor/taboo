@@ -1,10 +1,10 @@
-FROM node:alpine AS build
+FROM node:current-alpine3.20 AS build
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --verbose
 
 COPY . ./
 
