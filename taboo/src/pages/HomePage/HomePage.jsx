@@ -8,6 +8,7 @@ export default function HomePage () {
     return(
         <div className="HomePage">
             <img className="HomeLogo" src={TabooLogo} />
+            <div className="test" />
             <button className="HomeButton" type="button" onClick={e => navigate("/play/teams")} >Play</button>
             <button className="HomeButton" type="button" onClick={e => navigate("/howTo")} >How to Play</button>
         </div>
