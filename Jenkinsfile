@@ -84,11 +84,17 @@ pipeline {
                 stage('Update Version File') {
                     steps {
                         script {
-                            def newVersions = "database=${env.CURRENT_DATABASE_VERSION};backend=${env.CURRENT_BACKEND_VERSION};frontend=${env.CURRENT_FRONTEND_VERSION}".trim()
-                            writeFile file: 'versions.txt', text: newVersions
-                            sh "git add versions.txt"
-                            sh "git commit -m 'Update image versions'"
-                            sh "git push origin master"
+                            withCredentials([usernamePassword(credentialsId: 'github-pat-uap', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                                def newVersions = "database=${env.CURRENT_DATABASE_VERSION};backend=${env.CURRENT_BACKEND_VERSION};frontend=${env.CURRENT_FRONTEND_VERSION}".trim()
+                                writeFile file: 'versions.txt', text: newVersions
+                                sh '''
+                                git config --global user.name "${GIT_USERNAME}"
+                                git config --global user.password "${GIT_PASSWORD}"
+                                '''
+                                sh "git add versions.txt"
+                                sh "git commit -m 'Update image versions'"
+                                sh "git push origin master"
+                            }
                         }
                     }
                 }
