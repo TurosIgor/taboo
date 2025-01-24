@@ -90,10 +90,10 @@ pipeline {
                                 sh '''
                                 git config --global user.name "${GIT_USERNAME}"
                                 git config --global user.password "${GIT_PASSWORD}"
+                                git add versions.txt
+                                git commit -m 'Update image versions'
+                                git push origin master
                                 '''
-                                sh "git add versions.txt"
-                                sh "git commit -m 'Update image versions'"
-                                sh "git push origin master"
                             }
                         }
                     }
