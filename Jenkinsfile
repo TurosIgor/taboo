@@ -28,6 +28,7 @@ pipeline {
             steps {
                 script {
                     def changedFiles = sh(script: 'git diff --name-only HEAD~1 HEAD', returnStdout: true).trim().split('\n')
+                    sh "echo ${changedFiles}"
                     env.VERSION_CHANGE = changedFiles.any { it.startsWith('versions')} ? 'true' : 'false'
                     env.BUILD_DATABASE = changedFiles.any { it.startsWith('database/') } ? 'true' : 'false'
                     env.BUILD_BACKEND = changedFiles.any { it.startsWith('server/') } ? 'true' : 'false'
