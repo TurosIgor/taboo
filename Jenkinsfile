@@ -45,9 +45,9 @@ pipeline {
                             steps {
                                 dir('database') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION} ."
+                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION} ."
                                         bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${params.VERSION}"
+                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${env.VERSION}"
                                         env.CURRENT_DATABASE_VERSION = env.VERSION
                                     }
                                 }
@@ -58,9 +58,9 @@ pipeline {
                             steps {
                                 dir('server') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION} ."
+                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION} ."
                                         bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${params.VERSION}"
+                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${env.VERSION}"
                                         env.CURRENT_BACKEND_VERSION = env.VERSION
                                     }
                                 }
@@ -71,9 +71,9 @@ pipeline {
                             steps {
                                 dir('taboo') {
                                     script {
-                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION} ."
+                                        bat "docker build -t 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION} ."
                                         bat "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo"
-                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${params.VERSION}"
+                                        bat "docker push 905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/frontend:${env.VERSION}"
                                         env.CURRENT_FRONTEND_VERSION = env.VERSION
                                     }
                                 }
