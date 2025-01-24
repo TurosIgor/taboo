@@ -92,7 +92,7 @@ pipeline {
                                 git config --global user.password "${GIT_PASSWORD}"
                                 git add versions.txt
                                 git commit -m 'Update image versions'
-                                git push origin master
+                                git push https://${GIT_PASSWORD}@github.com/${GIT_USERNAME}/taboo.git
                                 '''
                             }
                         }
