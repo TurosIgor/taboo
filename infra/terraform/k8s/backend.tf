@@ -1,3 +1,11 @@
+locals {
+  mongo_hosts = [
+    for i in range(kubernetes_stateful_set_v1.mongo.spec[0].replicas) :
+    "mongo-${i}.mongo-svc.default.svc.cluster.local:27017"
+  ]
+  connection_string = "mongodb://${join(",", local.mongo_hosts)}/tabooDB?replicaSet=rs0"
+}
+
 resource "kubernetes_deployment_v1" "backend" {
   metadata {
     name = "backend"
@@ -22,7 +30,7 @@ resource "kubernetes_deployment_v1" "backend" {
           image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/backend:${var.be_image_version}"
           env {
             name = "MONGO_URI"
-            value = "mongodb://mongo-0.mongo-svc.default.svc.cluster.local:27017,mongo-1.mongo-svc.default.svc.cluster.local:27017,mongo-2.mongo-svc.default.svc.cluster.local:27017/tabooDB?replicaSet=rs0"
+            value = local.connection_string
           }
           env {
             name = "SESSION_SECRET"
@@ -74,6 +82,6 @@ resource "kubernetes_secret_v1" "session_secret" {
 
   type = "Opaque"
   data = {
-    "SESSION_SECRET" = "<base64 encoded secret string>"
+    "SESSION_SECRET" = "ATabooALegjobbJatekAVilagon"
   }
 }

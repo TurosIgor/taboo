@@ -22,7 +22,7 @@ resource "kubernetes_stateful_set_v1" "mongo" {
       spec {
         container {
           name = "mongo"
-          image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${var.fe_image_version}"
+          image = "905418131003.dkr.ecr.eu-north-1.amazonaws.com/taboo/database:${var.db_image_version}"
           port {
             container_port = 27017
           }
@@ -75,7 +75,7 @@ resource "kubernetes_storage_class_v1" "mongo_storage" {
     "type" = "gp2"
     "fsType" = "ext4"
   }
-  reclaim_policy = "Retain"
+  reclaim_policy = "Delete"
 }
 
 resource "kubernetes_service_v1" "mongo_svc" {
