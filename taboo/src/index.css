@@ -9,13 +9,14 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-image: linear-gradient(to right, rgba(210, 179, 245, 0.75), rgba(189, 145, 240, 0.75), rgba(210, 179, 245, 0.75));
+  background-image: linear-gradient(to right, #f0b1d2, #f07fad, #f0b1d2);
   margin: auto;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 
   text-transform: uppercase;
 }
@@ -59,7 +60,7 @@ button {
   margin: .6rem;
   box-shadow: .5rem .5rem .5rem #1a1a1a8c;
   transition: transform .08s ease, box-shadow .08s ease;
-  background-image: linear-gradient(to right, rgb(222, 232, 135), rgb(222, 240, 63));
+  background-image: linear-gradient(to right, #ea5ead, #e942a0);
   cursor: pointer;
   text-transform: uppercase;
 }

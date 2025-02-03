@@ -52,10 +52,10 @@
     bottom: 0;
 }
 .team_1{
-    background-image: linear-gradient(to right, rgb(145, 175, 240), rgb(179, 200, 245));
+    background-image: linear-gradient(to right, rgb(240, 74, 168), rgb(246, 119, 208));
 }
 .team_1 input{
-    background-image: linear-gradient(to right, rgb(93, 154, 152), rgb(103, 138, 134));  
+    background-image: linear-gradient(to right, rgb(229, 133, 197), rgb(229, 95, 180));  
 }
 .team_2 input{
     background-image: linear-gradient(to right, rgb(158, 127, 96), rgb(154, 135, 114));  
@@ -78,8 +78,8 @@
     pointer-events: none;
 }
 .team_1 button{
-    background-image: linear-gradient(to right, rgb(123, 202, 199), rgb(151, 204, 199));
-    border-image: linear-gradient(to right, rgb(48, 64, 65), rgb(38, 62, 62));
+    background-image: linear-gradient(to right, rgb(229, 133, 197), rgb(229, 95, 180));
+    border-color: transparent;
 }
 .team_1 button:hover, .team_2 button:hover{
     box-shadow: .1rem .1rem .3rem #1a1a1a8c;
@@ -91,7 +91,7 @@
 }
 .team_2 button{
     background-image: linear-gradient(to right, rgb(202, 162, 123), rgb(204, 179, 151));
-    border-image: linear-gradient(to right, rgb(151, 194, 204), rgb(151, 194, 204));
+    border-color: transparent;
 }
 .team_2{
     background-image: linear-gradient(to right, rgb(233, 142, 142), rgb(245, 179, 179));

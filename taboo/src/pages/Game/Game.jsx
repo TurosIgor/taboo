@@ -10,7 +10,7 @@ import useCard from "../../hooks/useCard";
 
 export default function Game() {
     const initialStartTimer = 3;
-    const { teams, dispatch } = useOutletContext();
+    const { teams, dispatch, colors } = useOutletContext();
     const [counter, setCounter] = useState(0);
     const [team, setTeam] = useState(teams.find(team => team.current));
     const rounds = Object.values(team.scores).length;
@@ -52,7 +52,7 @@ export default function Game() {
     }, [round])
 
     if (started & startTimer > 0) {
-        return <h1 className="StartTimer">{startTimer}</h1>
+        return <h1 className="StartTimer" style={{color: `${colors.uiColor.from}`}}>{startTimer}</h1>
     }
     return (
         <div className="GameContainer">

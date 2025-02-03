@@ -1,0 +1,24 @@
+.ColorPicker {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+}
+.ColorScheme {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    border: .1rem #1a1a1a solid;
+    cursor: pointer;
+}
+.PurpleYellow {
+    background-image: linear-gradient(to right, rgba(210, 179, 245, 1), rgb(229, 232, 135));
+}
+.BlueOrange {
+    background-image: linear-gradient(to right, rgba(179, 193, 245, 1), rgb(232, 190, 135));
+}
+.BlackGrey {
+    background-image: linear-gradient(to right, #1a1a1a, #aaaaaa);
+}
+.Pink {
+    background-image: linear-gradient(to right, #f0b1d2, #ea5ead);
+}
