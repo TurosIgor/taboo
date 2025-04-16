@@ -18,16 +18,16 @@ data:
         rs.initiate({
           _id: 'rs0',
           members: [
-            { _id: 0, host: 'mongo-0.mongo-svc.default.svc.cluster.local:27017', priority: 2 },
-            { _id: 1, host: 'mongo-1.mongo-svc.default.svc.cluster.local:27017', priority: 1 },
-            { _id: 2, host: 'mongo-2.mongo-svc.default.svc.cluster.local:27017', priority: 1 }
+            { _id: 0, host: 'mongo-0.mongo-svc.taboo.svc.cluster.local:27017', priority: 2 },
+            { _id: 1, host: 'mongo-1.mongo-svc.taboo.svc.cluster.local:27017', priority: 1 },
+            { _id: 2, host: 'mongo-2.mongo-svc.taboo.svc.cluster.local:27017', priority: 1 }
           ]
         })
       "
       
     else
       echo "Waiting for primary to initialize replica set..."
-      until mongosh --host mongo-0.mongo-svc.default.svc.cluster.local:27017 --eval "rs.status()" > /dev/null 2>&1; do
+      until mongosh --host mongo-0.mongo-svc.taboo.svc.cluster.local:27017 --eval "rs.status()" > /dev/null 2>&1; do
         echo "Waiting for replica set to be initialized..."
         sleep 2
       done
