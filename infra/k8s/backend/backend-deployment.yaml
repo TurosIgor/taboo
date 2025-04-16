@@ -17,7 +17,7 @@ spec:
         image: igorturos/taboo-backend:0.1
         env:
         - name: MONGO_URI
-          value: "mongodb://mongo-0.mongo-svc.default.svc.cluster.local:27017,mongo-1.mongo-svc.default.svc.cluster.local:27017,mongo-2.mongo-svc.default.svc.cluster.local:27017/tabooDB?replicaSet=rs0"
+          value: "mongodb://mongo-0.mongo-svc.taboo.svc.cluster.local:27017,mongo-1.mongo-svc.taboo.svc.cluster.local:27017,mongo-2.mongo-svc.taboo.svc.cluster.local:27017/tabooDB?replicaSet=rs0"
         - name: SESSION_SECRET
           valueFrom:
             secretKeyRef:
