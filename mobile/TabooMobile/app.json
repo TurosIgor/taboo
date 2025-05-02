@@ -1,28 +1,50 @@
 {
   "expo": {
-    "name": "taboomobile",
-    "slug": "taboomobile",
+    "name": "Taboo",
+    "slug": "Taboo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/adaptive-icon.png",
+    "userInterfaceStyle": "dark",
+    "androidStatusBar": {
+      "translucent": true
+    },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive"
+    },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/adaptive-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a1a1a"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "permissions": ["INTERNET"],
+      "permissions": [
+        "INTERNET"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "monochromeImage": "./assets/monochrome-icon.png",
+        "backgroundColor": "#1a1a1a"
+      },
+      "package": "com.gentlemanaztec.taboo"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/adaptive-icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a34279f1-181e-4cb7-908d-265c91a72b58"
+      }
+    },
+    "plugins": [
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic" : true
+        }
+      }]
+    ]
   }
 }
