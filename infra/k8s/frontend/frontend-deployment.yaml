@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: igorturos/taboo-frontend:0.1
+        image: igorturos/taboo-frontend:0.2
         env:
         - name: API_URL
           value: "/api"
